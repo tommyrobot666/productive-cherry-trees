@@ -11,12 +11,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductiveCherryLeafLitterBlock extends LeafLitterBlock {
+public class ProductivePetalsBlock extends LeafLitterBlock {
 	/* If there are mods that add items that have different uses depending on stored data,
 	 then change this from Item to ItemStack */
 	public final List<Item> producedResources;
 
-	public ProductiveCherryLeafLitterBlock(Properties properties, List<Item> producedResources) {
+	public ProductivePetalsBlock(Properties properties, List<Item> producedResources) {
 		super(properties);
 		this.producedResources = producedResources;
 	}

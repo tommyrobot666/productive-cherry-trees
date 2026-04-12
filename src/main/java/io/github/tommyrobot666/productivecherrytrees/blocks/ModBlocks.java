@@ -4,15 +4,19 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.material.MapColor;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -37,17 +41,31 @@ public class ModBlocks {
 		throw new UnsupportedOperationException("Function not written");
 	}
 
-	public static Block TEST_LOG = registerI(Identifier.tryBuild(ID,"test_log"), RotatedPillarBlock::new,
-		BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava()
-			.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? MapColor.TERRACOTTA_WHITE:MapColor.TERRACOTTA_LIGHT_GREEN)));
+	private static ProductiveCherryType registerCherry(String id, List<Item> producedResources, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
+		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
+			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava()
+				.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor)));
+		Block leafs = registerI(Identifier.tryBuild(ID, id+"_leafs"),
+			(p) -> new UntintedParticleLeavesBlock(0.1F, ParticleTypes.CHERRY_LEAVES, p),
+			BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES).mapColor(leafsColor));
+		Block petals = registerI(Identifier.tryBuild(ID, id+"_petals"),
+			(p) -> new ProductivePetalsBlock(p, producedResources),
+			BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).mapColor(petalsColor));
+		TreeGrower treeGrower = new TreeGrower(
+			id+"_productive_cherry_tree",
+			Optional.empty(),
+			Optional.of(ResourceKey.create(Registries.CONFIGURED_FEATURE,
+				Identifier.tryBuild(ID,id+"_productive_cherry_tree"))),
+			Optional.empty()
+		);
+		Block sapling = registerI(Identifier.tryBuild(ID, id+"_sapling"),
+			(p) -> new SaplingBlock(treeGrower,p),
+			BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).mapColor(petalsColor));
+		return new ProductiveCherryType(log,leafs,petals,sapling,producedResources,id);
+	}
 
-	public static Block TEST_LEAFS = registerI(Identifier.tryBuild(ID,"test_leafs"),
-		(p) -> new UntintedParticleLeavesBlock(0.1F,ParticleTypes.CHERRY_LEAVES, p),
-		BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES));
-
-	public static Block TEST_LITTER = registerI(Identifier.tryBuild(ID,"test_litter"),
-		(p) -> new ProductiveCherryLeafLitterBlock(p, List.of()),
-		BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).mapColor(MapColor.COLOR_PINK));
+	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",List.of(Items.PINK_CONCRETE),
+		MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
 
 	public static void register(){}
 }
