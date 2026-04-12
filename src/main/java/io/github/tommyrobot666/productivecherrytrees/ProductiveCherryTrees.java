@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees;
 
+import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +11,7 @@ public class ProductiveCherryTrees implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		//LOGGER.info("[Mod ID] pretty pink princess ponies prancing perpendicular");
+		LOGGER.info("Very productive fallen leafs");
+		ModBlocks.register();
 	}
 }
