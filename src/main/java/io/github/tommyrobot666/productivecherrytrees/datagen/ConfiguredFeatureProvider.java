@@ -49,10 +49,10 @@ public class ConfiguredFeatureProvider extends FabricDynamicRegistryProvider {
 			BlockStateProvider.simple(type.log),
 			new CherryTrunkPlacer(7,1,0,
 				new WeightedListInt(weightedList),
-				UniformInt.of(4,2),
-				UniformInt.of(-3,-4),
-				UniformInt.of(0,-1)),
-			BlockStateProvider.simple(type.petals),
+				UniformInt.of(2,4),
+				UniformInt.of(-4,-3),
+				UniformInt.of(-1,0)),
+			BlockStateProvider.simple(type.leafs),
 			new CherryFoliagePlacer(new ConstantInt(4),
 				new ConstantInt(0),
 				new ConstantInt(5),
@@ -63,7 +63,7 @@ public class ConfiguredFeatureProvider extends FabricDynamicRegistryProvider {
 
 	@Override
 	protected void configure(HolderLookup.Provider provider, Entries entries) {
-
+		entries.addAll(provider.lookupOrThrow(Registries.CONFIGURED_FEATURE));
 	}
 
 	@Override

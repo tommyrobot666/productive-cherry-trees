@@ -15,8 +15,9 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 
 	void cherryDrops(ProductiveCherryType type){
 		dropSelf(type.log);
-		createLeavesDrops(type.leafs,type.sapling,0.1f);
-		// leafs drops will be set in getDrops (for now)
+		add(type.leafs,createLeavesDrops(type.leafs,type.sapling,0.1f));
+		dropSelf(type.sapling);
+		// petals drops will be set in getDrops (for now)
 	}
 
 	@Override
