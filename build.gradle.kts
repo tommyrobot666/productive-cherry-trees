@@ -4,6 +4,12 @@ plugins {
 	`maven-publish`
 }
 
+fabricApi {
+	configureDataGeneration() {
+		client = true
+	}
+}
+
 val modVersion: String by project
 val branchName: String by project
 val slug: String by project

@@ -32,6 +32,9 @@
           "io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees"
 		],
 		"client": [
+		],
+		"fabric-datagen": [
+			"io.github.tommyrobot666.productivecherrytrees.datagen.DataGen"
 		]
 	}
 }
