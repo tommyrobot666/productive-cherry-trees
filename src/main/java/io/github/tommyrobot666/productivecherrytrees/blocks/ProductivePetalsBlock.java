@@ -1,23 +1,13 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
-import net.minecraft.world.item.ItemStack;
+import io.github.tommyrobot666.productivecherrytrees.ProducedResources;
 import net.minecraft.world.level.block.LeafLitterBlock;
 
-import java.util.List;
-import java.util.function.Supplier;
-
 public class ProductivePetalsBlock extends LeafLitterBlock {
-	private final Supplier<List<ItemStack>> producedResourcesSupplier;
-	private List<ItemStack> producedResourcesValue;
-	public List<ItemStack> producedResources(){
-		if (producedResourcesValue == null){
-			producedResourcesValue = producedResourcesSupplier.get();
-		}
-		return producedResourcesValue;
-	}
+	public final ProducedResources producedResources;
 
-	public ProductivePetalsBlock(Properties properties, Supplier<List<ItemStack>> producedResourcesSupplier) {
+	public ProductivePetalsBlock(Properties properties, ProducedResources producedResources) {
 		super(properties);
-		this.producedResourcesSupplier = producedResourcesSupplier;
+		this.producedResources = producedResources;
 	}
 }

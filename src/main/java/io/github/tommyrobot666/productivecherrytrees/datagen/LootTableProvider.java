@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
+import io.github.tommyrobot666.productivecherrytrees.ProducedResources;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ProductivePetalsBlock;
@@ -7,7 +8,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
@@ -29,15 +29,20 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 				.setRolls(new ConstantValue(1))
 				.add(NestedLootTable.inlineLootTable(createSegmentedBlockDrops(petals).build())));
 
-		for (ItemStack producedResource : petals.producedResources()) {
-			table = table.withPool(LootPool.lootPool().when(doesNotHaveShearsOrSilkTouch())
-				.add(LootItem.lootTableItem(producedResource.getItem()))
-				.setRolls(new ConstantValue(producedResource.count()))
-				.apply(SequenceFunction.of(
-					producedResource.getComponents().stream().map(
+		for (ProducedResources.ProducedResource producedResource : petals.producedResources.v) {
+			LootPool.Builder pool = LootPool.lootPool().when(doesNotHaveShearsOrSilkTouch())
+				.add(LootItem.lootTableItem(producedResource.item()))
+				.setRolls(new ConstantValue(producedResource.count()));
+
+			if (producedResource.components().isPresent()){
+				pool.apply(SequenceFunction.of(
+					producedResource.components().orElseThrow().stream().map(
 						(comp) -> SetComponentsFunction.setComponent((DataComponentType<Object>) comp.type(), comp.value()).build()
 					).toList()
-				)));
+				));
+			}
+
+			table = table.withPool(pool);
 		}
 
 		this.add(petals, table);
