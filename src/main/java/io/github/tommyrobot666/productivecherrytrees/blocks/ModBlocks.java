@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
+import io.github.tommyrobot666.productivecherrytrees.ItemOrStackList;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -9,6 +10,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.TreeGrower;
@@ -41,7 +43,7 @@ public class ModBlocks {
 		throw new UnsupportedOperationException("Function not written");
 	}
 
-	private static ProductiveCherryType registerCherry(String id, List<Item> producedResources, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
+	private static ProductiveCherryType registerCherry(String id, List<ItemStack> producedResources, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
 		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
 			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava()
 				.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor)));
@@ -61,10 +63,10 @@ public class ModBlocks {
 		Block sapling = registerI(Identifier.tryBuild(ID, id+"_sapling"),
 			(p) -> new SaplingBlock(treeGrower,p),
 			BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).mapColor(petalsColor));
-		return new ProductiveCherryType(log,leafs,petals,sapling,producedResources,id);
+		return new ProductiveCherryType(log,leafs, (ProductivePetalsBlock) petals,sapling,producedResources,id);
 	}
 
-	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",List.of(Items.PINK_CONCRETE),
+	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",new ItemOrStackList().with(Items.PINK_CONCRETE,2),
 		MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
 
 	public static void register(){}

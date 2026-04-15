@@ -39,7 +39,6 @@ public class ConfiguredFeatureProvider extends FabricDynamicRegistryProvider {
 		);
 
 	static TreeConfiguration createCherryTree(ProductiveCherryType type){
-//		WeightedList<IntProvider> weightedList = WeightedList.builder().add(new ConstantInt(1),1).build();
 		WeightedList<IntProvider> weightedList = WeightedList.of(
 			List.of(new Weighted<>(new ConstantInt(1),1),
 				new Weighted<>(new ConstantInt(2),1),

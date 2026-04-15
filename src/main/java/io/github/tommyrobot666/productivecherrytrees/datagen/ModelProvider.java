@@ -16,7 +16,6 @@ public class ModelProvider extends FabricModelProvider {
 
 	void cherryModels(ProductiveCherryType type, BlockModelGenerators g){
 		g.createTrivialBlock(type.log, TexturedModel.COLUMN);
-//		g.createFlowerBed(type.petals);
 		g.createLeafLitter(type.petals);
 		g.createCrossBlock(type.sapling, BlockModelGenerators.PlantType.EMISSIVE_NOT_TINTED);
 		g.createTrivialCube(type.leafs);
