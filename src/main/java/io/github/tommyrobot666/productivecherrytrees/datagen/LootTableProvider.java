@@ -8,12 +8,10 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
-import net.minecraft.world.level.storage.loot.functions.LootItemFunction;
 import net.minecraft.world.level.storage.loot.functions.SequenceFunction;
 import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
@@ -31,13 +29,13 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 				.setRolls(new ConstantValue(1))
 				.add(NestedLootTable.inlineLootTable(createSegmentedBlockDrops(petals).build())));
 
-		for (ItemStack producedResource : petals.producedResources) {
+		for (ItemStack producedResource : petals.producedResources()) {
 			table = table.withPool(LootPool.lootPool().when(doesNotHaveShearsOrSilkTouch())
 				.add(LootItem.lootTableItem(producedResource.getItem()))
 				.setRolls(new ConstantValue(producedResource.count()))
 				.apply(SequenceFunction.of(
 					producedResource.getComponents().stream().map(
-						(comp) -> SetComponentsFunction.setComponent((DataComponentType<Object>) (Object) comp.type(),(Object) comp.value()).build()
+						(comp) -> SetComponentsFunction.setComponent((DataComponentType<Object>) comp.type(), comp.value()).build()
 					).toList()
 				)));
 		}

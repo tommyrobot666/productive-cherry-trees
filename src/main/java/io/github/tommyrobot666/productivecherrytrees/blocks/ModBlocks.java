@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees.ID;
 
@@ -43,7 +44,7 @@ public class ModBlocks {
 		throw new UnsupportedOperationException("Function not written");
 	}
 
-	private static ProductiveCherryType registerCherry(String id, List<ItemStack> producedResources, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
+	private static ProductiveCherryType registerCherry(String id, Supplier<List<ItemStack>> producedResources, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
 		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
 			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava()
 				.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor)));
@@ -66,7 +67,7 @@ public class ModBlocks {
 		return new ProductiveCherryType(log,leafs, (ProductivePetalsBlock) petals,sapling,producedResources,id);
 	}
 
-	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",new ItemOrStackList().with(Items.PINK_CONCRETE,2),
+	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",() -> new ItemOrStackList().with(Items.PINK_CONCRETE,2),
 		MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
 
 	public static void register(){}

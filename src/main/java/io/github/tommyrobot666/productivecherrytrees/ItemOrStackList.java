@@ -8,6 +8,7 @@ import java.util.ArrayList;
 public class ItemOrStackList extends ArrayList<ItemStack> {
 	public ItemOrStackList with(Item item, int count){
 		add(item.getDefaultInstance().copyWithCount(count));
+		// add(new ItemStack(item,count)); also works fine
 		return this;
 	}
 
