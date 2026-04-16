@@ -24,6 +24,7 @@ public class ModelProvider extends FabricModelProvider {
 	@Override
 	public void generateBlockStateModels(@NotNull BlockModelGenerators g) {
 		cherryModels(ModBlocks.TEST_CHERRY,g);
+		DataGen.genCherryDefault.forEach((t) -> cherryModels(t,g));
 	}
 
 	@Override

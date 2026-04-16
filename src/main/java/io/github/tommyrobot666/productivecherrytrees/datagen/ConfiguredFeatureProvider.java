@@ -67,10 +67,12 @@ public class ConfiguredFeatureProvider extends FabricDynamicRegistryProvider {
 
 	@Override
 	public String getName() {
-		return "";
+		return "Cherry Tree Structures";
 	}
 
 	public static void bootStrap(BootstrapContext<ConfiguredFeature<?,?>> cfContext) {
 		cfContext.register(TEST_TREE_KEY, new ConfiguredFeature<>(Feature.TREE,createCherryTree(ModBlocks.TEST_CHERRY)));
+		DataGen.genCherryDefault.forEach((t) ->
+			cfContext.register(t.treeFeatureKey,new ConfiguredFeature<>(Feature.TREE,createCherryTree(t))));
 	}
 }
