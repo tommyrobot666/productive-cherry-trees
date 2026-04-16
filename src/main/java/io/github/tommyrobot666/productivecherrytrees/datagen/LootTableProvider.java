@@ -12,14 +12,15 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
-import net.minecraft.world.level.storage.loot.functions.SequenceFunction;
-import net.minecraft.world.level.storage.loot.functions.SetComponentsFunction;
+import net.minecraft.world.level.storage.loot.functions.*;
 import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class LootTableProvider extends FabricBlockLootSubProvider {
@@ -33,34 +34,31 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 				.setRolls(new ConstantValue(1))
 				.add(NestedLootTable.inlineLootTable(createSegmentedBlockDrops(petals).build())));
 
-		// it would make more sense to me for every resource to not have it's own pool,
-		// but setRolls and SetComponentsFunction applies to the whole pool
-		for (ProducedResources.ProducedResource producedResource : petals.producedResources.v) {
-			// add a pool for each segmented block segment
-			for (int i = 2; i <6; i++) {
-				AnyOfCondition.Builder allPoolBlockStates = new AnyOfCondition.Builder();
-				for (int j = 1; j < i; j++) {
-					// use .or(Builder) for one that returns self
-					allPoolBlockStates.addTerm(new LootItemBlockStatePropertyCondition.Builder(petals).setProperties(
-						StatePropertiesPredicate.Builder.properties()
-						.hasProperty(ProductivePetalsBlock.AMOUNT,j)));
-				}
+		for (int i = 1; i <5; i++) {
+			LootItemBlockStatePropertyCondition.Builder poolBlockState =
+				new LootItemBlockStatePropertyCondition.Builder(petals).setProperties(
+				StatePropertiesPredicate.Builder.properties()
+					.hasProperty(ProductivePetalsBlock.AMOUNT, i));
 
-				LootPool.Builder pool = LootPool.lootPool().when(doesNotHaveShearsOrSilkTouch())
-					.when(allPoolBlockStates)
-					.add(LootItem.lootTableItem(producedResource.item()))
-					.setRolls(new UniformGenerator(new ConstantValue(producedResource.count()-1), new ConstantValue(producedResource.count())));
+			LootPool.Builder pool = LootPool.lootPool().when(doesNotHaveShearsOrSilkTouch())
+				.when(poolBlockState);
+
+			for (ProducedResources.ProducedResource producedResource : petals.producedResources.v) {
+				LootPoolSingletonContainer.Builder<?> item = LootItem.lootTableItem(producedResource.item())
+					.apply(SetItemCountFunction.setCount(new UniformGenerator(new ConstantValue(0), new ConstantValue(producedResource.count()*i))));
 
 				if (producedResource.components().isPresent()) {
-					pool.apply(SequenceFunction.of(
+					List<? extends LootItemConditionalFunction.Builder<?>> componentSetters =
 						producedResource.components().orElseThrow().stream().map(
-							(comp) -> SetComponentsFunction.setComponent((DataComponentType<Object>) comp.type(), comp.value()).build()
-						).toList()
-					));
+							(comp) -> SetComponentsFunction.setComponent((DataComponentType<Object>) comp.type(), comp.value())
+						).toList();
+					componentSetters.forEach(item::apply);
 				}
 
-				table = table.withPool(pool);
+				pool.add(item);
 			}
+
+			table = table.withPool(pool);
 		}
 
 		this.add(petals, table);
