@@ -34,6 +34,7 @@ public class ModBlocks {
 		return block;
 	}
 
+	/** @noinspection unused, unused , unused */
 	private static Block registerItem(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties,
 									  BiFunction<Item.Properties, Block, Item> itemFactory, Item.Properties itemProperties) {
 		Block block = register(id, factory, properties);
@@ -41,6 +42,7 @@ public class ModBlocks {
 		throw new UnsupportedOperationException("Function not written");
 	}
 
+	/** @noinspection SameParameterValue, SameParameterValue , SameParameterValue , SameParameterValue */
 	private static ProductiveCherryType registerCherry(String id, ProducedResources producedResources, double dropPetalsChance, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
 		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
 			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava().strength(2f)
@@ -55,7 +57,7 @@ public class ModBlocks {
 			id+"_productive_cherry_tree",
 			Optional.empty(),
 			Optional.of(ResourceKey.create(Registries.CONFIGURED_FEATURE,
-				Identifier.tryBuild(ID,id+"_productive_cherry_tree"))),
+				Identifier.fromNamespaceAndPath(ID,id+"_productive_cherry_tree"))),
 			Optional.empty()
 		);
 		Block sapling = registerI(Identifier.tryBuild(ID, id+"_sapling"),

@@ -1,6 +1,5 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
-import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;

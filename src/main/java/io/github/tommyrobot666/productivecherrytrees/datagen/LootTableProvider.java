@@ -15,7 +15,6 @@ import net.minecraft.world.level.storage.loot.entries.LootItem;
 import net.minecraft.world.level.storage.loot.entries.LootPoolSingletonContainer;
 import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
 import net.minecraft.world.level.storage.loot.functions.*;
-import net.minecraft.world.level.storage.loot.predicates.AnyOfCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -48,6 +47,7 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 					.apply(SetItemCountFunction.setCount(new UniformGenerator(new ConstantValue(0), new ConstantValue(producedResource.count()*i))));
 
 				if (producedResource.components().isPresent()) {
+					//noinspection unchecked
 					List<? extends LootItemConditionalFunction.Builder<?>> componentSetters =
 						producedResource.components().orElseThrow().stream().map(
 							(comp) -> SetComponentsFunction.setComponent((DataComponentType<Object>) comp.type(), comp.value())

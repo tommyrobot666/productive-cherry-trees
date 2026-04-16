@@ -8,13 +8,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class ProducedResources {
-	public List<ProducedResource> v = new ArrayList<>();
+	public final List<ProducedResource> v = new ArrayList<>();
 
 	public ProducedResources with(Item item, int count){
 		v.add(new ProducedResource(item,count,Optional.empty()));
 		return this;
 	}
 
+	/** @noinspection unused*/
 	public ProducedResources with(Item item, int count, DataComponentMap components){
 		v.add(new ProducedResource(item,count, Optional.of(components)));
 		return this;

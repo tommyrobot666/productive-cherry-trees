@@ -23,6 +23,7 @@ import net.minecraft.world.level.levelgen.feature.featuresize.TwoLayersFeatureSi
 import net.minecraft.world.level.levelgen.feature.foliageplacers.CherryFoliagePlacer;
 import net.minecraft.world.level.levelgen.feature.stateproviders.BlockStateProvider;
 import net.minecraft.world.level.levelgen.feature.trunkplacers.CherryTrunkPlacer;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -35,7 +36,7 @@ public class ConfiguredFeatureProvider extends FabricDynamicRegistryProvider {
 	public static final ResourceKey<ConfiguredFeature<?, ?>> TEST_TREE_KEY =
 		ResourceKey.create(
 			Registries.CONFIGURED_FEATURE,
-			Identifier.tryBuild(ProductiveCherryTrees.ID, "test_productive_cherry_tree")
+			Identifier.fromNamespaceAndPath(ProductiveCherryTrees.ID, "test_productive_cherry_tree")
 		);
 
 	static TreeConfiguration createCherryTree(ProductiveCherryType type){
@@ -66,7 +67,7 @@ public class ConfiguredFeatureProvider extends FabricDynamicRegistryProvider {
 	}
 
 	@Override
-	public String getName() {
+	public @NotNull String getName() {
 		return "Cherry Tree Structures";
 	}
 

@@ -13,6 +13,7 @@ public class ProductiveCherryType {
 	public final Block leafs;
 	public final ProductivePetalsBlock petals;
 	public final Block sapling;
+	/** @noinspection unused*/
 	public final ProducedResources producedResources;
 	public final String id;
 	public final ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;

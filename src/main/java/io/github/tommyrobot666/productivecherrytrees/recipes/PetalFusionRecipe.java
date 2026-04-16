@@ -1,7 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.recipes;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DynamicOps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -23,7 +22,7 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 		).apply(instance, PetalFusionRecipe::new));
 	public static final Codec<PetalFusionRecipe> CODEC = MAP_CODEC.codec();
 	public static final StreamCodec<RegistryFriendlyByteBuf, PetalFusionRecipe> STREAM_CODEC = StreamCodec.of(
-		(buf,r) -> PetalFusionRecipe.streamEncode(buf,r), (buf) -> PetalFusionRecipe.streamDecode(buf)
+		PetalFusionRecipe::streamEncode, PetalFusionRecipe::streamDecode
 	);
 
 	private static PetalFusionRecipe streamDecode(RegistryFriendlyByteBuf buf) {
@@ -41,6 +40,7 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	final Block output;
 	final String group;
 
+	/** @noinspection unused*/
 	public PetalFusionRecipe(List<Block> input, Block output, String group) {
 		if (input.size() != 2){
 			throw new IllegalArgumentException("Recipe should have just 2 inputs");
@@ -55,9 +55,10 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 		return input.stream().map((b) -> b.asItem().getDefaultInstance()).toList();
 	}
 
+	/** @noinspection SlowListContainsAll*/
 	@Override
 	public boolean matches(TwoBlocksInput input, @NotNull Level level) {
-		return input.inputAsStacks().stream().allMatch((stack) -> inputAsStacks().contains(stack));
+		return inputAsStacks().containsAll(input.inputAsStacks());
 	}
 
 	@Override
@@ -92,6 +93,7 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 		).toList());
 	}
 
+	/** @noinspection DataFlowIssue*/
 	@Override
 	public @NotNull RecipeBookCategory recipeBookCategory() {
 		return null;//RecipeBookCategories.;

@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.stream.Stream;
 
+/** @noinspection unused*/
 public record TwoBlocksInput(Block original, Block combining) implements RecipeInput {
 	@Override
 	public @NotNull ItemStack getItem(int index) {
