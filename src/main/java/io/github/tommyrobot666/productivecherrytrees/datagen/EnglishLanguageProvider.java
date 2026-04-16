@@ -29,6 +29,6 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
 	@Override
 	public void generateTranslations(HolderLookup.@NotNull Provider reg, @NotNull TranslationBuilder tb) {
 		cherryLang(ModBlocks.TEST_CHERRY,tb);
-		DataGen.genCherryDefault.forEach((t) -> cherryLang(t,tb));
+		DataGen.genCherryDefaultAssets.forEach((t) -> cherryLang(t,tb));
 	}
 }

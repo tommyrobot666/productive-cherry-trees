@@ -13,11 +13,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DataGen implements DataGeneratorEntrypoint {
-	public static final List<ProductiveCherryType> genCherryDefault = new ArrayList<>();
+	public static final List<ProductiveCherryType> genCherryDefaultAssets = new ArrayList<>();
 
 	@Override
 	public void onInitializeDataGenerator(FabricDataGenerator fdg) {
-		addCherryDefaults();
+		addCherryDefaultAssets();
 		FabricDataGenerator.Pack pack = fdg.createPack();
 		pack.addProvider(ModelProvider::new);
 		pack.addProvider(LootTableProvider::new);
@@ -25,8 +25,8 @@ public class DataGen implements DataGeneratorEntrypoint {
 		pack.addProvider(EnglishLanguageProvider::new);
 	}
 
-	private void addCherryDefaults() {
-		genCherryDefault.add(ModBlocks.GOLD_CHERRY);
+	private void addCherryDefaultAssets() {
+		genCherryDefaultAssets.add(ModBlocks.GOLD_CHERRY);
 	}
 
 	@Override
