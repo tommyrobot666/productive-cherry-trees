@@ -41,16 +41,16 @@ public class ModBlocks {
 		throw new UnsupportedOperationException("Function not written");
 	}
 
-	private static ProductiveCherryType registerCherry(String id, ProducedResources producedResources, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
+	private static ProductiveCherryType registerCherry(String id, ProducedResources producedResources, float dropPetalsChance, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
 		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
 			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava()
 				.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor)));
-		Block leafs = registerI(Identifier.tryBuild(ID, id+"_leafs"),
-			(p) -> new UntintedParticleLeavesBlock(0.1F, ParticleTypes.CHERRY_LEAVES, p),
-			BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES).mapColor(leafsColor));
 		Block petals = registerI(Identifier.tryBuild(ID, id+"_petals"),
 			(p) -> new ProductivePetalsBlock(p, producedResources),
 			BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).mapColor(petalsColor));
+		Block leafs = registerI(Identifier.tryBuild(ID, id+"_leafs"),
+			(p) -> new ProductiveLeafsBlock(0.1F, ParticleTypes.CHERRY_LEAVES, dropPetalsChance, petals, p),
+			BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES).mapColor(leafsColor).randomTicks());
 		TreeGrower treeGrower = new TreeGrower(
 			id+"_productive_cherry_tree",
 			Optional.empty(),
@@ -65,7 +65,11 @@ public class ModBlocks {
 	}
 
 	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",new ProducedResources().with(Items.PINK_CONCRETE,2),
-		MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
+		0.01f,MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
+
+	public static final ProductiveCherryType GOLD_CHERRY = registerCherry("gold",
+		new ProducedResources().with(Items.RAW_GOLD,3).with(Items.GOLD_INGOT,1).with(Items.GOLD_NUGGET,5),
+		0.01f,MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
 
 	public static void register(){}
 }
