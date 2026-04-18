@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.recipes.ModRecipeTypes;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipe;
 import io.github.tommyrobot666.productivecherrytrees.recipes.TwoBlocksInput;
@@ -44,6 +45,7 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 			BlockState stateAtPlaceLocation = level.getBlockState(placeLocation);
 			if (stateAtPlaceLocation.getBlock() instanceof ProductivePetalsBlock){
 				Block fusedPetals = attemptPetalFusion(level,stateAtPlaceLocation.getBlock(),random);
+				if (fusedPetals == null) return;
 				if (fusedPetals instanceof ProductivePetalsBlock) {
 					level.setBlockAndUpdate(placeLocation, fusedPetals.defaultBlockState()
 						.setValue(ProductivePetalsBlock.AMOUNT,
@@ -69,6 +71,10 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 			}
 		}
 
+		// don't replace other petal types when fusion fails
+		if (original != droppedPetals){
+			return null;
+		}
 		return droppedPetals;
 	}
 }

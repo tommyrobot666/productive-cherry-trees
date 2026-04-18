@@ -20,5 +20,9 @@ public class ModRecipeTypes {
 				}
 			});
 
-	public static void register(){}
+	public static void register(){
+		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER,
+			Identifier.fromNamespaceAndPath(ID, "petal_fusion"),
+			PetalFusionRecipe.SERIALIZER);
+	}
 }

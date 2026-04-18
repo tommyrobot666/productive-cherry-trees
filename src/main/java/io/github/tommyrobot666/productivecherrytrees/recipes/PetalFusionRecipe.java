@@ -18,8 +18,10 @@ import java.util.List;
 public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	public static final MapCodec<PetalFusionRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
 		(instance) -> instance.group(
-			Identifier.CODEC.listOf().fieldOf("input")
-				.forGetter((r) -> r.input.stream().map(BuiltInRegistries.BLOCK::getKey).toList()),
+			Identifier.CODEC.fieldOf("original")
+				.forGetter((r) -> BuiltInRegistries.BLOCK.getKey(r.original)),
+			Identifier.CODEC.fieldOf("combining")
+				.forGetter((r) -> BuiltInRegistries.BLOCK.getKey(r.combining)),
 			Identifier.CODEC.fieldOf("output")
 				.forGetter((r) -> BuiltInRegistries.BLOCK.getKey(r.output)),
 			Codec.STRING.fieldOf("group").forGetter((r) -> r.group),
@@ -41,35 +43,28 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 
 	public static final RecipeSerializer<@NotNull PetalFusionRecipe> SERIALIZER = new RecipeSerializer<>(MAP_CODEC, STREAM_CODEC);
 
-	final List<Block> input;
+	final Block original;
+	final Block combining;
 	final Block output;
 	final String group;
 	final double chance;
 
-	public PetalFusionRecipe(List<Block> input, Block output, String group, double chance) {
-		if (input.size() != 2){
-			throw new IllegalArgumentException("Recipe should have just 2 inputs");
-		}
-
-		this.input = input;
+	public PetalFusionRecipe(Block original, Block combining, Block output, String group, double chance) {
+		this.original = original;
+		this.combining = combining;
 		this.output = output;
 		this.group = group;
 		this.chance = chance;
 	}
 
-	public PetalFusionRecipe(List<Identifier> input, Identifier output, String group, double chance) {
-		this(input.stream().map(BuiltInRegistries.BLOCK::getValue).toList(),
+	public PetalFusionRecipe(Identifier original, Identifier combining, Identifier output, String group, double chance) {
+		this(BuiltInRegistries.BLOCK.getValue(original),BuiltInRegistries.BLOCK.getValue(combining),
 			BuiltInRegistries.BLOCK.getValue(output),group,chance);
 	}
 
-	public List<ItemStack> inputAsStacks(){
-		return input.stream().map((b) -> b.asItem().getDefaultInstance()).toList();
-	}
-
-	/** @noinspection SlowListContainsAll*/
 	@Override
 	public boolean matches(TwoBlocksInput input, @NotNull Level level) {
-		return inputAsStacks().containsAll(input.inputAsStacks());
+		return input.original() == original && input.combining() == combining;
 	}
 
 	@Override
@@ -99,9 +94,10 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 
 	@Override
 	public @NotNull PlacementInfo placementInfo() {
-		return PlacementInfo.create(input.stream().map(
-			(b) -> Ingredient.of(b.asItem())
-		).toList());
+		return PlacementInfo.create(List.of(
+			Ingredient.of(original),
+			Ingredient.of(combining)
+		));
 	}
 
 	/** @noinspection DataFlowIssue*/
