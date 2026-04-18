@@ -1,19 +1,25 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
+import io.github.tommyrobot666.productivecherrytrees.recipes.ModRecipeTypes;
+import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipe;
+import io.github.tommyrobot666.productivecherrytrees.recipes.TwoBlocksInput;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.UntintedParticleLeavesBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
+
 public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
-	final Block droppedPetals;
+	final ProductivePetalsBlock droppedPetals;
 	final double dropPetalsChance;
 
-	public ProductiveLeafsBlock(float leafParticleChance, ParticleOptions leafParticle, double dropPetalsChance, Block droppedPetals, Properties properties) {
+	public ProductiveLeafsBlock(float leafParticleChance, ParticleOptions leafParticle, double dropPetalsChance, ProductivePetalsBlock droppedPetals, Properties properties) {
 		super(leafParticleChance, leafParticle, properties);
 		this.droppedPetals = droppedPetals;
 		this.dropPetalsChance = dropPetalsChance;
@@ -25,7 +31,8 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 			BlockPos.MutableBlockPos searchDown = pos.mutable();
 			do {
 				searchDown.move(0,-1,0);
-			} while (level.isInsideBuildHeight(searchDown) && (level.getBlockState(searchDown).canBeReplaced() || level.getBlockState(searchDown).is(droppedPetals)));
+			} while (level.isInsideBuildHeight(searchDown) &&
+				(level.getBlockState(searchDown).canBeReplaced() || level.getBlockState(searchDown).getBlock() instanceof ProductivePetalsBlock));
 
 			// stopped after one step, can't replace block directly below
 			if (searchDown.equals(pos.below())){
@@ -34,13 +41,34 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 
 			// reusing searchDown, but renaming the var
 			BlockPos placeLocation = searchDown.move(0,1,0);
-			if (level.getBlockState(placeLocation).is(droppedPetals)){
-				level.setBlockAndUpdate(placeLocation,droppedPetals.defaultBlockState()
-					.setValue(ProductivePetalsBlock.AMOUNT,
-						Math.min(4,level.getBlockState(placeLocation).getValue(ProductivePetalsBlock.AMOUNT)+1)));
+			BlockState stateAtPlaceLocation = level.getBlockState(placeLocation);
+			if (stateAtPlaceLocation.getBlock() instanceof ProductivePetalsBlock){
+				Block fusedPetals = attemptPetalFusion(level,stateAtPlaceLocation.getBlock(),random);
+				if (fusedPetals instanceof ProductivePetalsBlock) {
+					level.setBlockAndUpdate(placeLocation, fusedPetals.defaultBlockState()
+						.setValue(ProductivePetalsBlock.AMOUNT,
+							Math.min(4, level.getBlockState(placeLocation).getValue(ProductivePetalsBlock.AMOUNT) + 1)));
+				} else {
+					level.setBlockAndUpdate(placeLocation, fusedPetals.defaultBlockState());
+				}
 			} else {
 				level.setBlockAndUpdate(placeLocation,droppedPetals.defaultBlockState());
 			}
 		}
+	}
+
+	private Block attemptPetalFusion(@NotNull ServerLevel level, Block original, @NotNull RandomSource random) {
+		// the .sorted randomizes it
+		List<@NotNull PetalFusionRecipe> matchingFusions = level.recipeAccess().getAllMatches(ModRecipeTypes.PETAL_FUSION_TYPE,
+			new TwoBlocksInput(original,droppedPetals),level).map(RecipeHolder::value)
+			.sorted((x,y) -> random.nextInt()).toList();
+
+		for (@NotNull PetalFusionRecipe fusion : matchingFusions) {
+			if (fusion.getChance() > random.nextDouble()){
+				return fusion.getOutput();
+			}
+		}
+
+		return droppedPetals;
 	}
 }

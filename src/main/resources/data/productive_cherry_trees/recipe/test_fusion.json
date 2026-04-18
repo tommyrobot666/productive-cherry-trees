@@ -1,0 +1,10 @@
+{
+	"type": "productive_cherry_trees:petal_fusion",
+	"input": [
+		"productive_cherry_trees:test_petals",
+		"productive_cherry_trees:gold_petals"
+	],
+	"output": "minecraft:waxed_copper_block",
+	"chance": 0.3,
+	"group": ""
+}

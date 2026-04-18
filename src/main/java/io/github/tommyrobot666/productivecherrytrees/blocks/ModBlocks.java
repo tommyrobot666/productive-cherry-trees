@@ -47,7 +47,7 @@ public class ModBlocks {
 		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
 			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava().strength(2f)
 				.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor)));
-		Block petals = registerI(Identifier.tryBuild(ID, id+"_petals"),
+		ProductivePetalsBlock petals = (ProductivePetalsBlock) registerI(Identifier.tryBuild(ID, id+"_petals"),
 			(p) -> new ProductivePetalsBlock(p, producedResources),
 			BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).strength(.3f).mapColor(petalsColor));
 		Block leafs = registerI(Identifier.tryBuild(ID, id+"_leafs"),
@@ -63,7 +63,7 @@ public class ModBlocks {
 		Block sapling = registerI(Identifier.tryBuild(ID, id+"_sapling"),
 			(p) -> new SaplingBlock(treeGrower,p),
 			BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SAPLING).mapColor(petalsColor));
-		return new ProductiveCherryType(log,leafs, (ProductivePetalsBlock) petals,sapling,producedResources,id);
+		return new ProductiveCherryType(log,leafs, petals,sapling,producedResources,id);
 	}
 
 	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",new ProducedResources().with(Items.PINK_CONCRETE,2),

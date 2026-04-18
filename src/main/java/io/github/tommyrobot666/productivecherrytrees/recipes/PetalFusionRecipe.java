@@ -3,8 +3,10 @@ package io.github.tommyrobot666.productivecherrytrees.recipes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
@@ -16,9 +18,12 @@ import java.util.List;
 public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	public static final MapCodec<PetalFusionRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
 		(instance) -> instance.group(
-			Block.CODEC.codec().listOf().fieldOf("input").forGetter((r) -> r.input),
-			Block.CODEC.codec().fieldOf("output").forGetter((r) -> r.output),
-			Codec.STRING.fieldOf("group").forGetter((r) -> r.group)
+			Identifier.CODEC.listOf().fieldOf("input")
+				.forGetter((r) -> r.input.stream().map(BuiltInRegistries.BLOCK::getKey).toList()),
+			Identifier.CODEC.fieldOf("output")
+				.forGetter((r) -> BuiltInRegistries.BLOCK.getKey(r.output)),
+			Codec.STRING.fieldOf("group").forGetter((r) -> r.group),
+			Codec.DOUBLE.fieldOf("chance").forGetter((r) -> r.chance)
 		).apply(instance, PetalFusionRecipe::new));
 	public static final Codec<PetalFusionRecipe> CODEC = MAP_CODEC.codec();
 	public static final StreamCodec<RegistryFriendlyByteBuf, PetalFusionRecipe> STREAM_CODEC = StreamCodec.of(
@@ -39,9 +44,9 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	final List<Block> input;
 	final Block output;
 	final String group;
+	final double chance;
 
-	/** @noinspection unused*/
-	public PetalFusionRecipe(List<Block> input, Block output, String group) {
+	public PetalFusionRecipe(List<Block> input, Block output, String group, double chance) {
 		if (input.size() != 2){
 			throw new IllegalArgumentException("Recipe should have just 2 inputs");
 		}
@@ -49,6 +54,12 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 		this.input = input;
 		this.output = output;
 		this.group = group;
+		this.chance = chance;
+	}
+
+	public PetalFusionRecipe(List<Identifier> input, Identifier output, String group, double chance) {
+		this(input.stream().map(BuiltInRegistries.BLOCK::getValue).toList(),
+			BuiltInRegistries.BLOCK.getValue(output),group,chance);
 	}
 
 	public List<ItemStack> inputAsStacks(){
@@ -97,5 +108,13 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	@Override
 	public @NotNull RecipeBookCategory recipeBookCategory() {
 		return null;//RecipeBookCategories.;
+	}
+
+	public double getChance() {
+		return chance;
+	}
+
+	public Block getOutput() {
+		return output;
 	}
 }
