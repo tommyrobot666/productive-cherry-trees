@@ -75,5 +75,7 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 	public void generate() {
 		cherryDrops(ModBlocks.TEST_CHERRY);
 		DataGen.genCherryDefaultAssets.forEach(this::cherryDrops);
+
+		dropSelf(ModBlocks.SAPLING_INFUSER);
 	}
 }

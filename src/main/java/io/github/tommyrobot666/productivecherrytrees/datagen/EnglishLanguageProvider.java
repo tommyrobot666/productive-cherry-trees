@@ -30,5 +30,7 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
 	public void generateTranslations(HolderLookup.@NotNull Provider reg, @NotNull TranslationBuilder tb) {
 		cherryLang(ModBlocks.TEST_CHERRY,tb);
 		DataGen.genCherryDefaultAssets.forEach((t) -> cherryLang(t,tb));
+
+		tb.add(ModBlocks.SAPLING_INFUSER,"Sapling Infuser");
 	}
 }

@@ -14,6 +14,7 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 
 import java.util.Optional;
@@ -41,6 +42,14 @@ public class ModBlocks {
 		// ModItems.register...
 		throw new UnsupportedOperationException("Function not written");
 	}
+
+
+	public static final Block SAPLING_INFUSER = registerI(
+		Identifier.fromNamespaceAndPath(ID,"sapling_infusion"),
+		SaplingInfusionBlock::new,
+		BlockBehaviour.Properties.of()
+			.mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.BELL)
+			.strength(3.0F, 6.0F).sound(SoundType.METAL));
 
 	/** @noinspection SameParameterValue, SameParameterValue , SameParameterValue , SameParameterValue */
 	private static ProductiveCherryType registerCherry(String id, ProducedResources producedResources, double dropPetalsChance, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
@@ -71,7 +80,7 @@ public class ModBlocks {
 
 	public static final ProductiveCherryType GOLD_CHERRY = registerCherry("gold",
 		new ProducedResources().with(Items.RAW_GOLD,3).with(Items.GOLD_INGOT,1).with(Items.GOLD_NUGGET,5),
-		0.05f,MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
+		0.05f,MapColor.GOLD,MapColor.TERRACOTTA_WHITE,MapColor.GOLD,MapColor.GOLD);
 
 	public static void register(){}
 }

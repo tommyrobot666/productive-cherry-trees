@@ -1,0 +1,7 @@
+{
+	"type": "productive_cherry_trees:sapling_infusion",
+	"sapling": "productive_cherry_trees:test_sapling",
+	"petals": "productive_cherry_trees:gold_petals",
+	"output": "productive_cherry_trees:gold_sapling",
+	"group": ""
+}

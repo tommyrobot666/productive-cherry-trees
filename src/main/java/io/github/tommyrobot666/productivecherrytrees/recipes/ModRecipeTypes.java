@@ -20,9 +20,22 @@ public class ModRecipeTypes {
 				}
 			});
 
+	public static final RecipeType<@NotNull SaplingInfusionRecipe> SAPLING_INFUSION_TYPE =
+		Registry.register(BuiltInRegistries.RECIPE_TYPE,
+			Identifier.fromNamespaceAndPath(ID, "sapling_infusion"),
+			new RecipeType<@NotNull SaplingInfusionRecipe>() {
+				@Override
+				public String toString() {
+					return "sapling_infusion";
+				}
+			});
+
 	public static void register(){
 		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER,
 			Identifier.fromNamespaceAndPath(ID, "petal_fusion"),
 			PetalFusionRecipe.SERIALIZER);
+		Registry.register(BuiltInRegistries.RECIPE_SERIALIZER,
+			Identifier.fromNamespaceAndPath(ID, "sapling_infusion"),
+			SaplingInfusionRecipe.SERIALIZER);
 	}
 }

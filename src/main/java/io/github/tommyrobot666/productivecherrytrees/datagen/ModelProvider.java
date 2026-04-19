@@ -25,6 +25,8 @@ public class ModelProvider extends FabricModelProvider {
 	public void generateBlockStateModels(@NotNull BlockModelGenerators g) {
 		cherryModels(ModBlocks.TEST_CHERRY,g);
 		DataGen.genCherryDefaultAssets.forEach((t) -> cherryModels(t,g));
+
+		g.createTrivialCube(ModBlocks.SAPLING_INFUSER);
 	}
 
 	@Override
