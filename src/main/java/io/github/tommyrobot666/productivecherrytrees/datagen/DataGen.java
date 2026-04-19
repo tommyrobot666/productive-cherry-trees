@@ -23,6 +23,8 @@ public class DataGen implements DataGeneratorEntrypoint {
 		pack.addProvider(LootTableProvider::new);
 		pack.addProvider(ConfiguredFeatureProvider::new);
 		pack.addProvider(EnglishLanguageProvider::new);
+		pack.addProvider(BlockTagProvider::new);
+		pack.addProvider(RecipesProvider::new);
 	}
 
 	private void addCherryDefaultAssets() {
