@@ -1,6 +1,7 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
 import io.github.tommyrobot666.productivecherrytrees.ProducedResources;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleTypes;
@@ -12,10 +13,13 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 import java.util.function.BiFunction;
@@ -43,6 +47,11 @@ public class ModBlocks {
 		throw new UnsupportedOperationException("Function not written");
 	}
 
+	private static <T extends BlockEntity> BlockEntityType<T> registerEntity(Identifier id, FabricBlockEntityTypeBuilder.Factory<? extends T> factory,Block... blocks){
+		return (BlockEntityType<T>) Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,id,
+			FabricBlockEntityTypeBuilder.create(factory,blocks).build());
+	}
+
 
 	public static final Block SAPLING_INFUSER = registerI(
 		Identifier.fromNamespaceAndPath(ID,"sapling_infusion"),
@@ -50,6 +59,11 @@ public class ModBlocks {
 		BlockBehaviour.Properties.of()
 			.mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.BELL)
 			.strength(3.0F, 6.0F).sound(SoundType.METAL));
+
+	public static final BlockEntityType<@NotNull SaplingInfusionBlockEntity> SAPLING_INFUSER_ENTITY =
+		registerEntity(Identifier.fromNamespaceAndPath(ID,"sapling_infusion"),
+			SaplingInfusionBlockEntity::new,
+			SAPLING_INFUSER);
 
 	/** @noinspection SameParameterValue, SameParameterValue , SameParameterValue , SameParameterValue */
 	private static ProductiveCherryType registerCherry(String id, ProducedResources producedResources, double dropPetalsChance, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
