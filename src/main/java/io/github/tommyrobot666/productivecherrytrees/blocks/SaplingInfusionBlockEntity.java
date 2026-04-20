@@ -26,7 +26,7 @@ public class SaplingInfusionBlockEntity extends BlockEntity {
 	}
 
 	public static void tick(ServerLevel level, BlockPos pos, BlockState state, SaplingInfusionBlockEntity e){
-		Block result = getSameBlockPlacedAllAround(level,pos);//getResult(level,pos);
+		Block result = getResult(level,pos);
 		if (result == null){
 			e.crafting = false;
 			e.ticksPassed = 0;
@@ -58,7 +58,6 @@ public class SaplingInfusionBlockEntity extends BlockEntity {
 	private static Block getResult(ServerLevel level, BlockPos pos) {
 		Block petals;
 		if ((petals = getSameBlockPlacedAllAround(level, pos)) == null) return null;
-		Object a = level.recipeAccess().getAllOfType(ModRecipeTypes.SAPLING_INFUSION_TYPE); //this is for debugging
 		Optional<RecipeHolder<@NotNull SaplingInfusionRecipe>> recipe = level.recipeAccess().getRecipeFor(
 			ModRecipeTypes.SAPLING_INFUSION_TYPE,
 			new TwoBlocksInput(level.getBlockState(pos.above()).getBlock(),petals),

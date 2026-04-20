@@ -86,7 +86,7 @@ public class SaplingInfusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 
 	@Override
 	public @NotNull RecipeType<? extends @NotNull Recipe<@NotNull TwoBlocksInput>> getType() {
-		return ModRecipeTypes.PETAL_FUSION_TYPE;
+		return ModRecipeTypes.SAPLING_INFUSION_TYPE;
 	}
 
 	@Override

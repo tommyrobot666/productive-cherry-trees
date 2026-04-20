@@ -47,8 +47,8 @@ public class ModBlocks {
 		throw new UnsupportedOperationException("Function not written");
 	}
 
-	private static <T extends BlockEntity> BlockEntityType<T> registerEntity(Identifier id, FabricBlockEntityTypeBuilder.Factory<? extends T> factory,Block... blocks){
-		return (BlockEntityType<T>) Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,id,
+	private static <T extends BlockEntity> BlockEntityType<T> registerEntity(Identifier id, FabricBlockEntityTypeBuilder.Factory<T> factory,Block... blocks){
+		return Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE,id,
 			FabricBlockEntityTypeBuilder.create(factory,blocks).build());
 	}
 
