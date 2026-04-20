@@ -26,7 +26,7 @@ public class SaplingInfusionBlockEntity extends BlockEntity {
 	}
 
 	public static void tick(ServerLevel level, BlockPos pos, BlockState state, SaplingInfusionBlockEntity e){
-		Block result = getResult(level,pos);
+		Block result = getSameBlockPlacedAllAround(level,pos);//getResult(level,pos);
 		if (result == null){
 			e.crafting = false;
 			e.ticksPassed = 0;

@@ -41,10 +41,6 @@ public class ModelProvider extends FabricModelProvider {
 		g.blockStateOutput.accept(MultiVariantGenerator.dispatch(ModBlocks.SAPLING_INFUSER)
 			.with(PropertyDispatch.initial(SaplingInfusionBlock.CRAFTING)
 				.generate((c) -> c?crafting:notCrafting)));
-		g.modelOutput.accept(notCrafting.variants().unwrap().getFirst().value().modelLocation(),
-			new DelegatedModel(Identifier.withDefaultNamespace("block/cube_bottom_top")));
-		g.modelOutput.accept(crafting.variants().unwrap().getFirst().value().modelLocation(),
-			new DelegatedModel(Identifier.withDefaultNamespace("block/cube_bottom_top")));
 	}
 
 	@Override
