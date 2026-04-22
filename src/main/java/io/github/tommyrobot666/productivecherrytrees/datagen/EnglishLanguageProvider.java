@@ -32,5 +32,6 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
 		DataGen.genCherryDefaultAssets.forEach((t) -> cherryLang(t,tb));
 
 		tb.add(ModBlocks.SAPLING_INFUSER,"Sapling Infuser");
+		tb.add(ModBlocks.SAPLING_INFUSER.asItem(),"Sapling Infuser");
 	}
 }
