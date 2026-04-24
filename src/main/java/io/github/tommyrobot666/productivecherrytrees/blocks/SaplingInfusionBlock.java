@@ -70,10 +70,4 @@ public class SaplingInfusionBlock extends BaseEntityBlock {
 	public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(@NotNull Level level, @NotNull BlockState state, @NotNull BlockEntityType<T> type) {
 		return createTickerHelper(type,ModBlocks.SAPLING_INFUSER_ENTITY,SaplingInfusionBlockEntity::ticker);
 	}
-
-	/*@Override TODO prevent block getting replaced by tree growth
-	protected void neighborChanged(@NotNull BlockState state, @NotNull Level level, @NotNull BlockPos pos, @NotNull Block block, @Nullable Orientation orientation, boolean movedByPiston) {
-		if (state.is(Blocks.DIRT))
-			level.setBlockAndUpdate(pos,this.defaultBlockState());
-	}*/
 }

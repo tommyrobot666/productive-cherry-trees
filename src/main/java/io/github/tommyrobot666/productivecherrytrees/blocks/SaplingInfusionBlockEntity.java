@@ -11,6 +11,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -90,6 +91,10 @@ public class SaplingInfusionBlockEntity extends BlockEntity {
 	}
 
 	public static void ticker(Level level, BlockPos pos, BlockState state, @NotNull SaplingInfusionBlockEntity saplingInfusionBlockEntity) {
+		if (level.getBlockState(pos.above()).hasProperty(BlockStateProperties.STAGE)){
+			level.setBlock(pos.above(),level.getBlockState(pos.above()).setValue(BlockStateProperties.STAGE,0),0,0);
+		}
+
 		if (level.isClientSide()) return;
 		tick((ServerLevel) level,pos,state,saplingInfusionBlockEntity);
 	}
