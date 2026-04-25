@@ -34,6 +34,14 @@ public class RecipesProvider extends FabricRecipeProvider {
 	void petalFusion(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o){
 		new PetalFusionRecipeBuilder(org.petals,comb.petals,out.petals,chance).save(o);
 	}
+	void petalFusionReverse(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o){
+		petalFusion(org, comb, out, chance, o);
+		petalFusion(out, comb, org, chance, o);
+	}
+	void petalFusionEither(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o){
+		petalFusion(org, comb, out, chance, o);
+		petalFusion(comb, org, out, chance, o);
+	}
 
 	@Override
 	protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.@NotNull Provider reg, @NotNull RecipeOutput o) {
@@ -56,6 +64,8 @@ public class RecipesProvider extends FabricRecipeProvider {
 
 				new PetalFusionRecipeBuilder(Blocks.YELLOW_STAINED_GLASS,ModBlocks.TEST_CHERRY.petals,Blocks.GOLD_BLOCK,0.25)
 					.save(o);
+
+				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.001,o);
 			}
 		};
 	}

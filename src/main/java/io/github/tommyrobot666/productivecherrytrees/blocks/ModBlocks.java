@@ -96,5 +96,9 @@ public class ModBlocks {
 		new ProducedResources().with(Items.RAW_GOLD,3).with(Items.GOLD_INGOT,1).with(Items.GOLD_NUGGET,5),
 		0.05f,MapColor.GOLD,MapColor.TERRACOTTA_WHITE,MapColor.GOLD,MapColor.GOLD);
 
+	public static final ProductiveCherryType STONE_CHERRY = registerCherry("stone",
+		new ProducedResources().with(Items.COBBLESTONE,5).with(Items.STONE,1).with(Items.COBBLED_DEEPSLATE,1),
+		0.13f,MapColor.TERRACOTTA_GRAY,MapColor.COLOR_GRAY,MapColor.COLOR_GRAY,MapColor.COLOR_LIGHT_GRAY);
+
 	public static void register(){}
 }
