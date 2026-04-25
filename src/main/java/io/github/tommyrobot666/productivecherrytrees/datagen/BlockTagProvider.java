@@ -17,6 +17,7 @@ public class BlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
 	public static final TagKey<Block> MINEABLE_AXE = TagKey.create(Registries.BLOCK, Identifier.withDefaultNamespace("mineable/axe"));
 	public static final TagKey<Block> MINEABLE_HOE = TagKey.create(Registries.BLOCK, Identifier.withDefaultNamespace("mineable/hoe"));
 	public static final TagKey<Block> MINEABLE_PICKAXE = TagKey.create(Registries.BLOCK, Identifier.withDefaultNamespace("mineable/pickaxe"));
+	public static final TagKey<Block> NO_LEAF_DECAY = TagKey.create(Registries.BLOCK, Identifier.withDefaultNamespace("prevents_nearby_leaf_decay"));
 
 	public BlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookupFuture) {
 		super(output, registryLookupFuture);
@@ -28,6 +29,8 @@ public class BlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
 		valueLookupBuilder(MINEABLE_HOE)
 			.add(type.leafs)
 			.add(type.petals);
+		valueLookupBuilder(NO_LEAF_DECAY)
+			.add(type.log);
 	}
 
 	@Override

@@ -5,6 +5,8 @@ import io.github.tommyrobot666.productivecherrytrees.recipes.SaplingInfusionReci
 import io.github.tommyrobot666.productivecherrytrees.recipes.TwoBlocksInput;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -38,6 +40,7 @@ public class SaplingInfusionBlockEntity extends BlockEntity {
 
 		if (e.crafting && e.ticksPassed>TICKS_TO_CRAFT){
 			clearInputAndPlaceOutput(level,pos,result);
+			level.playSound(null,pos,SoundEvents.AMETHYST_BLOCK_RESONATE,SoundSource.BLOCKS);
 		}
 
 		if (state.getValue(SaplingInfusionBlock.CRAFTING) != e.crafting){

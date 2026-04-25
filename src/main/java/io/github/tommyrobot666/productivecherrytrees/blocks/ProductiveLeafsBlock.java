@@ -1,11 +1,11 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
-import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.recipes.ModRecipeTypes;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipe;
 import io.github.tommyrobot666.productivecherrytrees.recipes.TwoBlocksInput;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -17,6 +17,8 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 
 public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
+	static final int FUSION_PARTICLES = 23;
+	static final int PLACE_PARTICLES = 10;
 	final ProductivePetalsBlock droppedPetals;
 	final double dropPetalsChance;
 
@@ -28,6 +30,8 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 
 	@Override
 	protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+		super.randomTick(state, level, pos, random);
+
 		if (random.nextDouble() < dropPetalsChance) {
 			BlockPos.MutableBlockPos searchDown = pos.mutable();
 			do {
@@ -46,6 +50,13 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 			if (stateAtPlaceLocation.getBlock() instanceof ProductivePetalsBlock){
 				Block fusedPetals = attemptPetalFusion(level,stateAtPlaceLocation.getBlock(),random);
 				if (fusedPetals == null) return;
+				for (int i = 0; i < FUSION_PARTICLES; i++) {
+					level.addParticle(ParticleTypes.HAPPY_VILLAGER,
+						random.nextDouble() + pos.getX(),
+						random.nextDouble() + pos.getY(),
+						random.nextDouble() + pos.getZ(),
+						random.nextDouble(), random.nextDouble(), random.nextDouble());
+				}
 				if (fusedPetals instanceof ProductivePetalsBlock) {
 					level.setBlockAndUpdate(placeLocation, fusedPetals.defaultBlockState()
 						.setValue(ProductivePetalsBlock.AMOUNT,
@@ -54,6 +65,13 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 					level.setBlockAndUpdate(placeLocation, fusedPetals.defaultBlockState());
 				}
 			} else {
+				for (int i = 0; i < PLACE_PARTICLES; i++) {
+					level.addParticle(ParticleTypes.HAPPY_VILLAGER,
+						random.nextDouble() + pos.getX(),
+						random.nextDouble() + pos.getY(),
+						random.nextDouble() + pos.getZ(),
+						random.nextDouble(), random.nextDouble(), random.nextDouble());
+				}
 				level.setBlockAndUpdate(placeLocation,droppedPetals.defaultBlockState());
 			}
 		}
