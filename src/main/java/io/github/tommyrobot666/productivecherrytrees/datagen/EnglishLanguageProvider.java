@@ -9,6 +9,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.concurrent.CompletableFuture;
 
+import static io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees.ID;
+
 public class EnglishLanguageProvider extends FabricLanguageProvider {
 	protected EnglishLanguageProvider(FabricPackOutput packOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
 		super(packOutput, "en_us", registryLookup);
@@ -33,5 +35,7 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
 
 		tb.add(ModBlocks.SAPLING_INFUSER,"Sapling Infuser");
 		tb.add(ModBlocks.SAPLING_INFUSER.asItem(),"Sapling Infuser");
+
+		tb.add("tab."+ID,"Productive Cherry Trees");
 	}
 }

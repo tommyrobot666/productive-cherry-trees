@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.recipes.ModRecipeTypes;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipe;
 import io.github.tommyrobot666.productivecherrytrees.recipes.TwoBlocksInput;
@@ -30,9 +31,10 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 
 	@Override
 	protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-		super.randomTick(state, level, pos, random);
+//		super.randomTick(state, level, pos, random);
 
 		if (random.nextDouble() < dropPetalsChance) {
+			ProductiveCherryTrees.LOGGER.error("no, the leafs didn't stop working for no reason");
 			BlockPos.MutableBlockPos searchDown = pos.mutable();
 			do {
 				searchDown.move(0,-1,0);

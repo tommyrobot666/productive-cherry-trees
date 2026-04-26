@@ -1,6 +1,7 @@
 package io.github.tommyrobot666.productivecherrytrees;
 
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
+import io.github.tommyrobot666.productivecherrytrees.items.ModTabs;
 import io.github.tommyrobot666.productivecherrytrees.recipes.ModRecipeTypes;
 import net.fabricmc.api.ModInitializer;
 import org.slf4j.Logger;
@@ -15,5 +16,6 @@ public class ProductiveCherryTrees implements ModInitializer {
 		LOGGER.info("Very productive fallen petals");
 		ModBlocks.register();
 		ModRecipeTypes.register();
+		ModTabs.register();
 	}
 }

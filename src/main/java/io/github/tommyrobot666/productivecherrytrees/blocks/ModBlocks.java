@@ -65,7 +65,6 @@ public class ModBlocks {
 			SaplingInfusionBlockEntity::new,
 			SAPLING_INFUSER);
 
-	/** @noinspection SameParameterValue, SameParameterValue , SameParameterValue , SameParameterValue */
 	private static ProductiveCherryType registerCherry(String id, ProducedResources producedResources, double dropPetalsChance, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
 		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
 			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava().strength(2f)
