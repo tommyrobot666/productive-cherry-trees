@@ -31,7 +31,7 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 
 	@Override
 	protected void randomTick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-//		super.randomTick(state, level, pos, random);
+		super.randomTick(state, level, pos, random);
 
 		if (random.nextDouble() < dropPetalsChance) {
 			ProductiveCherryTrees.LOGGER.error("no, the leafs didn't stop working for no reason");
@@ -77,6 +77,11 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 				level.setBlockAndUpdate(placeLocation,droppedPetals.defaultBlockState());
 			}
 		}
+	}
+
+	@Override
+	protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
+		randomTick(state, level, pos, random);
 	}
 
 	private Block attemptPetalFusion(@NotNull ServerLevel level, Block original, @NotNull RandomSource random) {
