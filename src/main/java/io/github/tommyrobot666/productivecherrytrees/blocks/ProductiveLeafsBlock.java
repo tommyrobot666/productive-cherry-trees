@@ -79,11 +79,6 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 		}
 	}
 
-	@Override
-	protected void tick(@NotNull BlockState state, @NotNull ServerLevel level, @NotNull BlockPos pos, @NotNull RandomSource random) {
-		randomTick(state, level, pos, random);
-	}
-
 	private Block attemptPetalFusion(@NotNull ServerLevel level, Block original, @NotNull RandomSource random) {
 		// the .sorted randomizes it
 		List<@NotNull PetalFusionRecipe> matchingFusions = level.recipeAccess().getAllMatches(ModRecipeTypes.PETAL_FUSION_TYPE,
@@ -101,5 +96,10 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 			return null;
 		}
 		return droppedPetals;
+	}
+
+	@Override
+	protected boolean isRandomlyTicking(@NotNull BlockState state) {
+		return true;
 	}
 }
