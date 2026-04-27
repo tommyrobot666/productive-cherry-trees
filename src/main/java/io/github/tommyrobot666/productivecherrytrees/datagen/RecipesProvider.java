@@ -67,6 +67,9 @@ public class RecipesProvider extends FabricRecipeProvider {
 
 				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.001,0.2,o);
 
+				new PetalFusionRecipeBuilder(Blocks.WATER,ModBlocks.FIRE_CHERRY.petals,Blocks.COBBLESTONE,1).save(o);
+				new SaplingInfusionRecipeBuilder(Blocks.CHERRY_SAPLING,Blocks.LAVA,ModBlocks.FIRE_CHERRY.sapling)
+					.save(o);
 				// lava on water make stone petals
 				// water on lave make obsidian
 			}

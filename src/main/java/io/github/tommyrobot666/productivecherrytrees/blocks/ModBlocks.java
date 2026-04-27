@@ -100,7 +100,7 @@ public class ModBlocks {
 		0.13f,MapColor.TERRACOTTA_GRAY,MapColor.COLOR_GRAY,MapColor.COLOR_LIGHT_GRAY,MapColor.COLOR_LIGHT_GRAY);
 
 	public static final ProductiveCherryType FIRE_CHERRY = registerCherry("fire",
-		new ProducedResources().placeBlock(Blocks.FIRE),
+		new ProducedResources().placeBlock(Blocks.FIRE).dropSelf(),
 		0.09f,MapColor.FIRE,MapColor.COLOR_GRAY,MapColor.FIRE,MapColor.FIRE);
 
 	public static void register(){}

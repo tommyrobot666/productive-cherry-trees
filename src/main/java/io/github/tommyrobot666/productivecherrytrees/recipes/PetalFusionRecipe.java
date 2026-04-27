@@ -94,10 +94,10 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 
 	@Override
 	public @NotNull PlacementInfo placementInfo() {
-		return PlacementInfo.create(List.of(
+		return PlacementInfo.NOT_PLACEABLE;/*PlacementInfo.create(List.of(
 			Ingredient.of(original),
 			Ingredient.of(combining)
-		));
+		));*/
 	}
 
 	/** @noinspection DataFlowIssue*/

@@ -28,6 +28,11 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 	}
 
 	void petalsDrops(ProductivePetalsBlock petals){
+		if (petals.producedResources.dropSelf){
+			this.add(petals,createSegmentedBlockDrops(petals));
+			return;
+		}
+
 		LootTable.Builder table = LootTable.lootTable()
 			.withPool(LootPool.lootPool().when(hasShearsOrSilkTouch())
 				.setRolls(new ConstantValue(1))

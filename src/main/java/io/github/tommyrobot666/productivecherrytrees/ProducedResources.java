@@ -11,6 +11,7 @@ import java.util.Optional;
 public class ProducedResources {
 	public final List<ProducedResource> v = new ArrayList<>();
 	public Block placedBlock = null;
+	public boolean dropSelf = false;
 
 	public ProducedResources with(Item item, int count){
 		v.add(new ProducedResource(item,count,Optional.empty()));
@@ -25,6 +26,11 @@ public class ProducedResources {
 
 	public ProducedResources placeBlock(Block placedBlock){
 		this.placedBlock = placedBlock;
+		return this;
+	}
+
+	public ProducedResources dropSelf() {
+		dropSelf = true;
 		return this;
 	}
 

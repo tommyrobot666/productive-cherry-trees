@@ -91,10 +91,10 @@ public class SaplingInfusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 
 	@Override
 	public @NotNull PlacementInfo placementInfo() {
-		return PlacementInfo.create(List.of(
+		return PlacementInfo.NOT_PLACEABLE;/*PlacementInfo.create(List.of(
 			Ingredient.of(sapling),
 			Ingredient.of(petals)
-		));
+		));*/
 	}
 
 	/** @noinspection DataFlowIssue*/
