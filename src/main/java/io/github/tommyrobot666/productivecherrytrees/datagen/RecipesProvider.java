@@ -34,9 +34,9 @@ public class RecipesProvider extends FabricRecipeProvider {
 	void petalFusion(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o){
 		new PetalFusionRecipeBuilder(org.petals,comb.petals,out.petals,chance).save(o);
 	}
-	void petalFusionReverse(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o){
+	void petalFusionReverse(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, double revChance, RecipeOutput o){
 		petalFusion(org, comb, out, chance, o);
-		petalFusion(out, comb, org, chance, o);
+		petalFusion(out, comb, org, revChance, o);
 	}
 	void petalFusionEither(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o){
 		petalFusion(org, comb, out, chance, o);
@@ -65,7 +65,10 @@ public class RecipesProvider extends FabricRecipeProvider {
 				new PetalFusionRecipeBuilder(Blocks.YELLOW_STAINED_GLASS,ModBlocks.TEST_CHERRY.petals,Blocks.GOLD_BLOCK,0.25)
 					.save(o);
 
-				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.001,o);
+				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.001,0.2,o);
+
+				// lava on water make stone petals
+				// water on lave make obsidian
 			}
 		};
 	}

@@ -34,7 +34,6 @@ public class ProductiveLeafsBlock extends UntintedParticleLeavesBlock {
 		super.randomTick(state, level, pos, random);
 
 		if (random.nextDouble() < dropPetalsChance) {
-			ProductiveCherryTrees.LOGGER.error("no, the leafs didn't stop working for no reason");
 			BlockPos.MutableBlockPos searchDown = pos.mutable();
 			do {
 				searchDown.move(0,-1,0);

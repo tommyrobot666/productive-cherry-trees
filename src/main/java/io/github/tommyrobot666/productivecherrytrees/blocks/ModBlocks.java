@@ -97,7 +97,11 @@ public class ModBlocks {
 
 	public static final ProductiveCherryType STONE_CHERRY = registerCherry("stone",
 		new ProducedResources().with(Items.COBBLESTONE,5).with(Items.STONE,1).with(Items.COBBLED_DEEPSLATE,1),
-		0.13f,MapColor.TERRACOTTA_GRAY,MapColor.COLOR_GRAY,MapColor.COLOR_GRAY,MapColor.COLOR_LIGHT_GRAY);
+		0.13f,MapColor.TERRACOTTA_GRAY,MapColor.COLOR_GRAY,MapColor.COLOR_LIGHT_GRAY,MapColor.COLOR_LIGHT_GRAY);
+
+	public static final ProductiveCherryType FIRE_CHERRY = registerCherry("fire",
+		new ProducedResources().placeBlock(Blocks.FIRE),
+		0.09f,MapColor.FIRE,MapColor.COLOR_GRAY,MapColor.FIRE,MapColor.FIRE);
 
 	public static void register(){}
 }
