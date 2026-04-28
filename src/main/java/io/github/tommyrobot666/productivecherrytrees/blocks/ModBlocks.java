@@ -103,5 +103,9 @@ public class ModBlocks {
 		new ProducedResources().placeBlock(Blocks.FIRE).dropSelf(),
 		0.09f,MapColor.FIRE,MapColor.COLOR_GRAY,MapColor.FIRE,MapColor.FIRE);
 
+	public static final ProductiveCherryType WATER_CHERRY = registerCherry("water",
+		new ProducedResources().placeBlock(Blocks.WATER).with(Items.BUBBLE_CORAL_FAN,1),
+		0.09f,MapColor.WATER,MapColor.WATER,MapColor.WATER,MapColor.WATER);
+
 	public static void register(){}
 }

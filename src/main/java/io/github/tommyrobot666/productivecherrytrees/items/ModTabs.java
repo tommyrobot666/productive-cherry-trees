@@ -31,6 +31,7 @@ public class ModTabs {
 			addCherryItems(ModBlocks.STONE_CHERRY,o);
 			addCherryItems(ModBlocks.GOLD_CHERRY,o);
 			addCherryItems(ModBlocks.FIRE_CHERRY,o);
+			addCherryItems(ModBlocks.WATER_CHERRY,o);
 			o.accept(ModBlocks.SAPLING_INFUSER);
 		}).build());
 

@@ -70,8 +70,10 @@ public class RecipesProvider extends FabricRecipeProvider {
 				new PetalFusionRecipeBuilder(Blocks.WATER,ModBlocks.FIRE_CHERRY.petals,Blocks.COBBLESTONE,1).save(o);
 				new SaplingInfusionRecipeBuilder(Blocks.CHERRY_SAPLING,Blocks.LAVA,ModBlocks.FIRE_CHERRY.sapling)
 					.save(o);
-				// lava on water make stone petals
-				// water on lave make obsidian
+				petalFusion(ModBlocks.WATER_CHERRY,ModBlocks.FIRE_CHERRY,ModBlocks.STONE_CHERRY,0.1,o);
+				new PetalFusionRecipeBuilder(ModBlocks.FIRE_CHERRY.petals,ModBlocks.WATER_CHERRY.petals,Blocks.OBSIDIAN,0.05).save(o);
+				new SaplingInfusionRecipeBuilder(Blocks.CHERRY_SAPLING,Blocks.WATER,ModBlocks.WATER_CHERRY.sapling)
+					.save(o);
 			}
 		};
 	}

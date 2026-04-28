@@ -31,6 +31,7 @@ public class DataGen implements DataGeneratorEntrypoint {
 		genCherryDefaultAssets.add(ModBlocks.GOLD_CHERRY);
 		genCherryDefaultAssets.add(ModBlocks.STONE_CHERRY);
 		genCherryDefaultAssets.add(ModBlocks.FIRE_CHERRY);
+		genCherryDefaultAssets.add(ModBlocks.WATER_CHERRY);
 	}
 
 	@Override
