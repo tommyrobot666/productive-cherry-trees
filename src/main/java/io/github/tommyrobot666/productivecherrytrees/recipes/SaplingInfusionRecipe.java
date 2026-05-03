@@ -13,8 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
-
 public class SaplingInfusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	public static final MapCodec<SaplingInfusionRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
 		(instance) -> instance.group(
@@ -105,5 +103,13 @@ public class SaplingInfusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 
 	public Block getOutput() {
 		return output;
+	}
+
+
+	public Ingredient[] getInputsAsItem(){
+		return new Ingredient[]{
+			Ingredient.of(sapling.asItem()),
+			Ingredient.of(petals.asItem())
+		};
 	}
 }

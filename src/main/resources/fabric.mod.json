@@ -35,6 +35,12 @@
 		],
 		"fabric-datagen": [
 			"io.github.tommyrobot666.productivecherrytrees.datagen.DataGen"
+		],
+		"rrv": [
+			"io.github.tommyrobot666.productivecherrytrees.rrv.ModIntegration"
+		],
+		"rrv_client": [
+			"io.github.tommyrobot666.productivecherrytrees.rrv.ModClientIntegration"
 		]
 	}
 }
