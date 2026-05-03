@@ -4,6 +4,20 @@ plugins {
 	`maven-publish`
 }
 
+repositories {
+	exclusiveContent {
+		forRepository {
+			maven {
+				name = "Cassian's Maven"
+				url = uri("https://maven.cassian.cc")
+			}
+		}
+		filter {
+			includeGroupAndSubgroups("cc.cassian")
+		}
+	}
+}
+
 fabricApi {
 	configureDataGeneration() {
 		client = true
@@ -14,12 +28,21 @@ val modVersion: String by project
 val branchName: String by project
 val slug: String by project
 val compatibleVersions: String by project
+val rrv_version: String by project
 
 version = "$modVersion+$branchName"
 
 dependencies {
 	minecraft(libs.minecraft)
 	api(libs.bundles.fabric)
+
+//	implementation(libs.versions.rrv)
+	//THeres an index at https://maven.cassian.cc/cc/cassian/rrv/reliable-recipe-viewer-fabric/
+	implementation("cc.cassian.rrv:reliable-recipe-viewer-fabric:${rrv_version}")
+//	implementation("libs/reliable-recipe-viewer-${rrv_version}")
+//	implementation(file("libs/reliable-recipe-viewer-${rrv_version}"))
+//	implementation("maven.modrinth:rrv:${rrv_version}")
+//	modImplementation("maven.modrinth:rrv:${rrv_version}")
 }
 
 java {
