@@ -6,6 +6,7 @@ import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipeBu
 import io.github.tommyrobot666.productivecherrytrees.recipes.SaplingInfusionRecipeBuilder;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.fabricmc.fabric.impl.resource.conditions.conditions.AllModsLoadedResourceCondition;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -15,6 +16,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class RecipesProvider extends FabricRecipeProvider {
@@ -48,6 +50,14 @@ public class RecipesProvider extends FabricRecipeProvider {
 	void saplingInfusion(Block sapling, Block combining, ProductiveCherryType out, RecipeOutput o){
 		new SaplingInfusionRecipeBuilder(sapling,combining,out.sapling)
 			.save(o);
+	}
+	// https://wiki.fabricmc.net/drafts:resourceconditions use for compat with other mods
+	void petalFusionWithConditions(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o, List<String> modids){
+		new PetalFusionRecipeBuilder(org.petals,comb.petals,out.petals,chance).save(withConditions(o, new AllModsLoadedResourceCondition(modids)));
+	}
+	void saplingInfusionWithConditions(Block sapling, Block combining, ProductiveCherryType out, RecipeOutput o, List<String> modids){
+		new SaplingInfusionRecipeBuilder(sapling,combining,out.sapling)
+			.save(withConditions(o, new AllModsLoadedResourceCondition(modids)));
 	}
 
 	@Override

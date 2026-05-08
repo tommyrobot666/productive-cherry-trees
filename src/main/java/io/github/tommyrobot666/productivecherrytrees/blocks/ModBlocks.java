@@ -121,9 +121,9 @@ public class ModBlocks {
 
 	public static final ProductiveCherryType WATER_CHERRY = registerCherry("water",
 		new ProducedResources().with(Items.POTION,3,57,
-				DataComponentMap.builder().set(DataComponents.POTION_CONTENTS,new PotionContents(Potions.WATER))
-					//.set(DataComponents.MAX_STACK_SIZE,64)
-					.set(DataComponents.ITEM_NAME,
+				DataComponentMap.builder().set(DataComponents.MAX_STACK_SIZE,64)
+					.set(DataComponents.POTION_CONTENTS,new PotionContents(Potions.WATER))
+					.set(DataComponents.CUSTOM_NAME,
 						Component.translatableWithFallback("item."+ID+".compressed_bottle","Water Bottle With Higher Stack Size")).build())
 			.with(0.1,Items.BUBBLE_CORAL_FAN,Items.BRAIN_CORAL_FAN,Items.FIRE_CORAL_FAN,Items.HORN_CORAL_FAN,Items.TUBE_CORAL_FAN),
 		0.09f,MapColor.WATER,MapColor.WATER,MapColor.WATER,MapColor.WATER);
