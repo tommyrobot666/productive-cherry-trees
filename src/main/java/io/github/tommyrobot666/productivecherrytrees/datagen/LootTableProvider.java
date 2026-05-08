@@ -27,11 +27,14 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 		super(packOutput, registriesFuture);
 	}
 
+	public static final double BIG_NUMBER_CHANCE_TO_INT = 100000000;
 	void petalsDrops(ProductivePetalsBlock petals){
 		if (petals.producedResources.dropSelf){
 			this.add(petals,createSegmentedBlockDrops(petals));
 			return;
 		}
+
+		double totalValue = petals.producedResources.totalValue();
 
 		LootTable.Builder table = LootTable.lootTable()
 			.withPool(LootPool.lootPool().when(hasShearsOrSilkTouch())
@@ -49,6 +52,7 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 
 			for (ProducedResources.ProducedResource producedResource : petals.producedResources.v) {
 				LootPoolSingletonContainer.Builder<?> item = LootItem.lootTableItem(producedResource.item())
+					.setWeight((int) (BIG_NUMBER_CHANCE_TO_INT*((producedResource.value()*i)/totalValue)))
 					.apply(SetItemCountFunction.setCount(new UniformGenerator(new ConstantValue(0), new ConstantValue(producedResource.count()*i))));
 
 				if (producedResource.components().isPresent()) {

@@ -13,14 +13,22 @@ public class ProducedResources {
 	public Block placedBlock = null;
 	public boolean dropSelf = false;
 
-	public ProducedResources with(Item item, int count){
-		v.add(new ProducedResource(item,count,Optional.empty()));
+	public ProducedResources with(Item item, double countChance){
+		if (countChance<1){
+			return with(item,1,countChance);
+		} else {
+			return with(item,((int) countChance),countChance);
+		}
+	}
+
+	public ProducedResources with(Item item, int count, double chance){
+		v.add(new ProducedResource(item,count,chance,Optional.empty()));
 		return this;
 	}
 
 	/** @noinspection unused*/
-	public ProducedResources with(Item item, int count, DataComponentMap components){
-		v.add(new ProducedResource(item,count, Optional.of(components)));
+	public ProducedResources with(Item item, int count, double chance, DataComponentMap components){
+		v.add(new ProducedResource(item,count,chance,Optional.of(components)));
 		return this;
 	}
 
@@ -34,5 +42,15 @@ public class ProducedResources {
 		return this;
 	}
 
-	public record ProducedResource(Item item, int count, Optional<DataComponentMap> components){}
+	public double totalValue(){
+		double i = 0;
+		for (ProducedResource resource : v) {
+			i += resource.value();
+		}
+		return i;
+	}
+
+	public record ProducedResource(Item item, int count, double chance, Optional<DataComponentMap> components){
+		public double value(){return chance*count;}
+	}
 }
