@@ -13,6 +13,13 @@ public class ProducedResources {
 	public Block placedBlock = null;
 	public boolean dropSelf = false;
 
+	public ProducedResources with(double countChance, Item... items){
+		for (Item item : items) {
+			with(item,countChance);
+		}
+		return this;
+	}
+
 	public ProducedResources with(Item item, double countChance){
 		if (countChance<1){
 			return with(item,1,countChance);
