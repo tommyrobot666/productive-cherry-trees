@@ -23,12 +23,12 @@ public class PetalFusionReliableClientRecipeType implements ReliableClientRecipe
 
 	@Override
 	public int getDisplayWidth() {
-		return 100;
+		return 90;
 	}
 
 	@Override
 	public int getDisplayHeight() {
-		return 80;
+		return 50;
 	}
 
 	@Override
@@ -43,9 +43,9 @@ public class PetalFusionReliableClientRecipeType implements ReliableClientRecipe
 
 	@Override
 	public void placeSlots(RecipeViewMenu.SlotDefinition sd) {
-		sd.addItemSlot(0,50,50);
-		sd.addItemSlot(1,50,60);
-		sd.addItemSlot(1,80,50);
+		sd.addItemSlot(0,30,10);
+		sd.addItemSlot(1,30,30);
+		sd.addItemSlot(2,70,20);
  	}
 
 	@Override
@@ -59,10 +59,10 @@ public class PetalFusionReliableClientRecipeType implements ReliableClientRecipe
 	}
 
 	// Causes an list index error somewhere?
-//	@Override
-//	public List<ItemStack> getCraftReferences() {
-//		return Stream.of(ModBlocks.TEST_CHERRY,ModBlocks.FIRE_CHERRY,ModBlocks.GOLD_CHERRY,ModBlocks.STONE_CHERRY,
-//				ModBlocks.WATER_CHERRY)
-//			.map((t) -> new ItemStack(t.petals.asItem())).toList();
-//	}
+	@Override
+	public List<ItemStack> getCraftReferences() {
+		return Stream.of(ModBlocks.TEST_CHERRY,ModBlocks.FIRE_CHERRY,ModBlocks.GOLD_CHERRY,ModBlocks.STONE_CHERRY,
+				ModBlocks.WATER_CHERRY)
+			.map((t) -> new ItemStack(t.petals.asItem())).toList();
+	}
 }

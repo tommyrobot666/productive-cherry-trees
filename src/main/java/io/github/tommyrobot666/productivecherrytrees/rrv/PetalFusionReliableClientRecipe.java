@@ -19,8 +19,8 @@ public class PetalFusionReliableClientRecipe implements ReliableClientRecipe {
 
 	public PetalFusionReliableClientRecipe(Identifier id, PetalFusionRecipe recipe) {
 		this.id = id;
-		this.baseItem = SlotContent.of(recipe.getInputsAsItem()[0].display());
-		this.fusionItem = SlotContent.of(recipe.getInputsAsItem()[1].display());
+		this.baseItem = SlotContent.of(recipe.getInputsAsItem().getFirst().display());
+		this.fusionItem = SlotContent.of(recipe.getInputsAsItem().getLast().display());
 		this.output = SlotContent.of(recipe.getOutput().asItem());
 		this.chance = recipe.getChance();
 	}

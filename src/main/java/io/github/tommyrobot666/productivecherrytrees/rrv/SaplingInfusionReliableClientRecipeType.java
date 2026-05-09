@@ -23,12 +23,12 @@ public class SaplingInfusionReliableClientRecipeType implements ReliableClientRe
 
 	@Override
 	public int getDisplayWidth() {
-		return 70;
+		return 90;
 	}
 
 	@Override
 	public int getDisplayHeight() {
-		return 30;
+		return 50;
 	}
 
 	@Override
@@ -44,9 +44,9 @@ public class SaplingInfusionReliableClientRecipeType implements ReliableClientRe
 	@Override
 	public void placeSlots(RecipeViewMenu.SlotDefinition sd) {
 		sd.addItemSlot(0,30,10);
-		sd.addItemSlot(1,30,15);
-		sd.addItemSlot(1,35,15);
-		sd.addItemSlot(1,25,15);
+//		sd.addItemSlot(1,30,15);
+//		sd.addItemSlot(1,35,15);
+		sd.addItemSlot(1,25-10,15+10);
 		sd.addItemSlot(2,60,20);
 	}
 

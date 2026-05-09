@@ -3,15 +3,19 @@ package io.github.tommyrobot666.productivecherrytrees.recipes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	public static final MapCodec<PetalFusionRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
@@ -92,10 +96,7 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 
 	@Override
 	public @NotNull PlacementInfo placementInfo() {
-		return PlacementInfo.NOT_PLACEABLE;/*PlacementInfo.create(List.of(
-			Ingredient.of(original),
-			Ingredient.of(combining)
-		));*/
+		return PlacementInfo.create(getInputsAsItem());
 	}
 
 	/** @noinspection DataFlowIssue*/
@@ -112,10 +113,21 @@ public class PetalFusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 		return output;
 	}
 
-	public Ingredient[] getInputsAsItem(){
-		return new Ingredient[]{
+	public List<Ingredient> getInputsAsItem(){
+		if (original.asItem() == Items.AIR ||
+		combining.asItem() == Items.AIR){
+			ProductiveCherryTrees.LOGGER.warn("A Petal Fusion recipe with {} and {} to {} couldn't convert all blocks to items",
+				original,combining,output);
+			return List.of(
+				Ingredient.of(Items.BARRIER),
+				Ingredient.of(Items.BARRIER)
+			);
+		}
+
+
+		return List.of(
 			Ingredient.of(original.asItem()),
 			Ingredient.of(combining.asItem())
-		};
+		);
 	}
 }

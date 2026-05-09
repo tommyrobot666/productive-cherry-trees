@@ -3,15 +3,19 @@ package io.github.tommyrobot666.productivecherrytrees.recipes;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.*;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class SaplingInfusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	public static final MapCodec<SaplingInfusionRecipe> MAP_CODEC = RecordCodecBuilder.mapCodec(
@@ -89,10 +93,7 @@ public class SaplingInfusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 
 	@Override
 	public @NotNull PlacementInfo placementInfo() {
-		return PlacementInfo.NOT_PLACEABLE;/*PlacementInfo.create(List.of(
-			Ingredient.of(sapling),
-			Ingredient.of(petals)
-		));*/
+		return PlacementInfo.create(getInputsAsItem());
 	}
 
 	/** @noinspection DataFlowIssue*/
@@ -106,10 +107,21 @@ public class SaplingInfusionRecipe implements Recipe<@NotNull TwoBlocksInput> {
 	}
 
 
-	public Ingredient[] getInputsAsItem(){
-		return new Ingredient[]{
+	public List<Ingredient> getInputsAsItem(){
+		if (sapling.asItem() == Items.AIR ||
+			petals.asItem() == Items.AIR){
+			ProductiveCherryTrees.LOGGER.warn("A Sapling Infusion recipe with {} and {} to {} couldn't convert all blocks to items",
+				sapling,petals,output);
+			return List.of(
+				Ingredient.of(Items.BARRIER),
+				Ingredient.of(Items.BARRIER)
+			);
+		}
+
+
+		return List.of(
 			Ingredient.of(sapling.asItem()),
 			Ingredient.of(petals.asItem())
-		};
+		);
 	}
 }

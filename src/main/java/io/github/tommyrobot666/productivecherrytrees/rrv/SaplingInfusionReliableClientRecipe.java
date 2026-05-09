@@ -15,8 +15,8 @@ public class SaplingInfusionReliableClientRecipe implements ReliableClientRecipe
 
 	public SaplingInfusionReliableClientRecipe(Identifier id, SaplingInfusionRecipe recipe) {
 		this.id = id;
-		this.sapling = SlotContent.of(recipe.getInputsAsItem()[0].display());
-		this.petals = SlotContent.of(recipe.getInputsAsItem()[1].display());
+		this.sapling = SlotContent.of(recipe.getInputsAsItem().getFirst().display());
+		this.petals = SlotContent.of(recipe.getInputsAsItem().getLast().display());
 		this.output = SlotContent.of(recipe.getOutput().asItem());
 	}
 
