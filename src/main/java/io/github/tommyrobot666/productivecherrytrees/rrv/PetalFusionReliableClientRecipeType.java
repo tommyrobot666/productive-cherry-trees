@@ -33,7 +33,7 @@ public class PetalFusionReliableClientRecipeType implements ReliableClientRecipe
 
 	@Override
 	public @Nullable Identifier getGuiTexture() {
-		return Identifier.withDefaultNamespace("textures/block/white_concrete");
+		return Identifier.fromNamespaceAndPath(ID,"textures/gui/type/petal_fusion.png");
 	}
 
 	@Override

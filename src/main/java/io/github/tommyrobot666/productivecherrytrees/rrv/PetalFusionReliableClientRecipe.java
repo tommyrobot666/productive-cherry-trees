@@ -6,7 +6,6 @@ import cc.cassian.rrv.common.recipe.inventory.RecipeViewMenu;
 import cc.cassian.rrv.common.recipe.inventory.RecipeViewScreen;
 import cc.cassian.rrv.common.recipe.inventory.SlotContent;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipe;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 
@@ -27,9 +26,9 @@ public class PetalFusionReliableClientRecipe implements ReliableClientRecipe {
 
 	@Override
 	public void bindSlots(RecipeViewMenu.SlotFillContext c) {
-		c.bindSlot(0,baseItem);
-		c.bindSlot(1,fusionItem);
-		c.bindSlot(2,baseItem);
+		c.bindSlot(1,baseItem);
+		c.bindSlot(0,fusionItem);
+		c.bindSlot(2,output);
 	}
 
 	@Override
@@ -54,6 +53,6 @@ public class PetalFusionReliableClientRecipe implements ReliableClientRecipe {
 
 	@Override
 	public void renderRecipe(RecipeViewScreen screen, RecipePosition recipePosition, GuiGraphicsExtractor guiGraphics, int mouseX, int mouseY, float partialTicks) {
-		guiGraphics.text(Minecraft.getInstance().font, "Fusion chance: "+chance,20,20,256*256*256*256);
+		guiGraphics.text(screen.getFont(), "Fusion chance: "+chance,0,-5,-16777216,false);
 	}
 }

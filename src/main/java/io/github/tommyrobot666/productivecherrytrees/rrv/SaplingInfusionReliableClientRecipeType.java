@@ -33,7 +33,7 @@ public class SaplingInfusionReliableClientRecipeType implements ReliableClientRe
 
 	@Override
 	public @Nullable Identifier getGuiTexture() {
-		return Identifier.withDefaultNamespace("textures/block/white_concrete");
+		return Identifier.fromNamespaceAndPath(ID,"textures/gui/type/sapling_infusion.png");
 	}
 
 	@Override
@@ -44,8 +44,6 @@ public class SaplingInfusionReliableClientRecipeType implements ReliableClientRe
 	@Override
 	public void placeSlots(RecipeViewMenu.SlotDefinition sd) {
 		sd.addItemSlot(0,30,10);
-//		sd.addItemSlot(1,30,15);
-//		sd.addItemSlot(1,35,15);
 		sd.addItemSlot(1,25-10,15+10);
 		sd.addItemSlot(2,60,20);
 	}
