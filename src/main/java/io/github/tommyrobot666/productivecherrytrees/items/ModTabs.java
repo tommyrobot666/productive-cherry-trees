@@ -25,7 +25,6 @@ public class ModTabs {
 		FabricCreativeModeTab.builder()
 		.icon(() -> new ItemStack(ModBlocks.TEST_CHERRY.sapling.asItem()))
 		.title(Component.translatable("tab."+ID))
-		.alignedRight()
 		.displayItems((p,o) ->{
 			addCherryItems(ModBlocks.TEST_CHERRY,o);
 			addCherryItems(ModBlocks.STONE_CHERRY,o);
