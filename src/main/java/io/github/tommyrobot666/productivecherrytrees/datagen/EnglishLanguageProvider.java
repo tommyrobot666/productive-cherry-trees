@@ -17,7 +17,7 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
 	}
 
 	void cherryLang(ProductiveCherryType type, TranslationBuilder tb){
-		String capitalName = type.id.toUpperCase().substring(0,1).concat(type.id.substring(1));
+		String capitalName = type.name.toUpperCase().substring(0,1).concat(type.name.substring(1).toLowerCase());
 		tb.add(type.leafs, capitalName+" Cherry Leafs");
 		tb.add(type.log, capitalName+" Cherry Log");
 		tb.add(type.petals, capitalName+" Cherry Petals");

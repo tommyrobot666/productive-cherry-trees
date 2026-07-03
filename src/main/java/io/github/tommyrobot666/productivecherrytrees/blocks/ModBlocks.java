@@ -76,26 +76,7 @@ public class ModBlocks {
 	}
 
 	private static ProductiveCherryType registerCherry(String id, ProductiveCherryLoot productiveCherryLoot, double dropPetalsChance, Item.Properties petalProperties, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
-		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
-			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava().strength(2f)
-				.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor)));
-		ProductivePetalsBlock petals = (ProductivePetalsBlock) registerI(Identifier.tryBuild(ID, id+"_petals"),
-			(p) -> new ProductivePetalsBlock(p, productiveCherryLoot),
-			BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).strength(.3f).mapColor(petalsColor),petalProperties);
-		Block leafs = registerI(Identifier.tryBuild(ID, id+"_leafs"),
-			(p) -> new ProductiveLeafsBlock(0.1F, ParticleTypes.CHERRY_LEAVES, dropPetalsChance, petals, p),
-			BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES).mapColor(leafsColor).randomTicks());
-		TreeGrower treeGrower = new TreeGrower(
-			id+"_productive_cherry_tree",
-			Optional.empty(),
-			Optional.of(ResourceKey.create(Registries.CONFIGURED_FEATURE,
-				Identifier.fromNamespaceAndPath(ID,id+"_productive_cherry_tree"))),
-			Optional.empty()
-		);
-		Block sapling = registerI(Identifier.tryBuild(ID, id+"_sapling"),
-			(p) -> new SaplingBlock(treeGrower,p),
-			BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SAPLING).mapColor(petalsColor));
-		return new ProductiveCherryType(log,leafs, petals,sapling, productiveCherryLoot,id);
+		return new ProductiveCherryType.ProductiveCherryTypeBuilder(id, Identifier.fromNamespaceAndPath(ID,id),null,productiveCherryLoot).setDropPetalsChance(dropPetalsChance).setLogSideColor(logSideColor).setLogTopColor(logTopColor).setLeafsColor(leafsColor).setPetalsColor(petalsColor).buildAndRegister();
 	}
 
 	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",new ProductiveCherryLoot().with(Items.PINK_CONCRETE,2),

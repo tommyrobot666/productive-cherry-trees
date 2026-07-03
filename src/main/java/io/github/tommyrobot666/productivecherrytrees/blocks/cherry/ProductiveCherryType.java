@@ -81,7 +81,7 @@ public class ProductiveCherryType {
 		ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;
 		ParticleOptions leafParticles = ParticleTypes.CHERRY_LEAVES;
 
-		ProductiveCherryTypeBuilder(String name, Identifier id, ProducedResources producedResources, ProductiveCherryLoot productiveCherryLoot) {
+		public ProductiveCherryTypeBuilder(String name, Identifier id, ProducedResources producedResources, ProductiveCherryLoot productiveCherryLoot) {
 			this.name = name;
 			this.id = id;
 			this.producedResources = producedResources;
@@ -89,57 +89,57 @@ public class ProductiveCherryType {
 			treeFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE,id);
 		}
 
-		ProductiveCherryTypeBuilder setDropPetalsChance(double dropPetalsChance){
+		public ProductiveCherryTypeBuilder setDropPetalsChance(double dropPetalsChance){
 			this.dropPetalsChance = dropPetalsChance;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setTreeGrowerOverride(TreeGrower treeGrower){
+		public ProductiveCherryTypeBuilder setTreeGrowerOverride(TreeGrower treeGrower){
 			treeGrowerOverride = treeGrower;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setTreeFeatureKey(ResourceKey<ConfiguredFeature<?,?>> key){
+		public ProductiveCherryTypeBuilder setTreeFeatureKey(ResourceKey<ConfiguredFeature<?,?>> key){
 			treeFeatureKey = key;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setLeafParticles(ParticleOptions particleType){
+		public ProductiveCherryTypeBuilder setLeafParticles(ParticleOptions particleType){
 			leafParticles = particleType;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setLogSideColor(MapColor color){
+		public ProductiveCherryTypeBuilder setLogSideColor(MapColor color){
 			logSideColor = color;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setLogTopColor(MapColor color){
+		public ProductiveCherryTypeBuilder setLogTopColor(MapColor color){
 			logTopColor = color;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setLeafsColor(MapColor color){
+		public ProductiveCherryTypeBuilder setLeafsColor(MapColor color){
 			leafsColor = color;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setPetalsColor(MapColor color){
+		public ProductiveCherryTypeBuilder setPetalsColor(MapColor color){
 			petalsColor = color;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setSaplingColor(MapColor color){
+		public ProductiveCherryTypeBuilder setSaplingColor(MapColor color){
 			saplingColor = color;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder setWoodColor(MapColor color){
+		public ProductiveCherryTypeBuilder setWoodColor(MapColor color){
 			woodColor = color;
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder applyMapColors(){
+		public ProductiveCherryTypeBuilder applyMapColors(){
 			logProperties.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor));
 			petalProperties.mapColor(petalsColor);
 			leafProperties.mapColor(leafsColor);
@@ -148,52 +148,52 @@ public class ProductiveCherryType {
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changePetalProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public ProductiveCherryTypeBuilder changePetalProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(petalProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changeLeafProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public ProductiveCherryTypeBuilder changeLeafProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(leafProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changeLogProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public ProductiveCherryTypeBuilder changeLogProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(logProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changeSaplingProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public ProductiveCherryTypeBuilder changeSaplingProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(saplingProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changeWoodProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public ProductiveCherryTypeBuilder changeWoodProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(woodProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changePetalItemProperties(Consumer<Item.Properties> consumer){
+		public ProductiveCherryTypeBuilder changePetalItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(petalItemProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changeLeafItemProperties(Consumer<Item.Properties> consumer){
+		public ProductiveCherryTypeBuilder changeLeafItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(leafItemProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changeLogItemProperties(Consumer<Item.Properties> consumer){
+		public ProductiveCherryTypeBuilder changeLogItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(logItemProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changeSaplingItemProperties(Consumer<Item.Properties> consumer){
+		public ProductiveCherryTypeBuilder changeSaplingItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(saplingItemProperties);
 			return this;
 		}
 
-		ProductiveCherryTypeBuilder changeWoodItemProperties(Consumer<Item.Properties> consumer){
+		public ProductiveCherryTypeBuilder changeWoodItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(woodItemProperties);
 			return this;
 		}
