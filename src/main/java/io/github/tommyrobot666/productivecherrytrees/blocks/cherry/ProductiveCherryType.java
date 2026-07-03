@@ -1,15 +1,17 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks.cherry;
 
+import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.datagen.ProductiveCherryLoot;
 import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleType;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.RotatedPillarBlock;
+import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
@@ -22,26 +24,30 @@ import java.util.function.Function;
 import static io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees.ID;
 
 public class ProductiveCherryType {
-	public final Block log;
-	public final Block leafs;
-	public final ProductivePetalsBlock petals;
-	public final Block sapling;
-	/** @noinspection unused*/
+	public final String name;
+	public final Identifier id;
+	public final double dropPetalsChance;
+	public final ProducedResources producedResources;
+	/// Used for loot datagen
 	public final ProductiveCherryLoot productiveCherryLoot;
-	public final String id;
+	public final RotatedPillarBlock log;
+	public final ProductiveLeafsBlock leafs;
+	public final ProductivePetalsBlock petals;
+	public final SaplingBlock sapling;
+	/// Used for tree datagen
 	public final ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;
 
-	public ProductiveCherryType(Block log, Block leafs, ProductivePetalsBlock petals, Block sapling, ProductiveCherryLoot productiveCherryLoot, String id) {
+	public ProductiveCherryType(String name, Identifier id, double dropPetalsChance, ProducedResources producedResources, ProductiveCherryLoot productiveCherryLoot, RotatedPillarBlock log, ProductiveLeafsBlock leafs, ProductivePetalsBlock petals, SaplingBlock sapling, ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey) {
+		this.name = name;
+		this.id = id;
+		this.dropPetalsChance = dropPetalsChance;
+		this.producedResources = producedResources;
+		this.productiveCherryLoot = productiveCherryLoot;
 		this.log = log;
 		this.leafs = leafs;
 		this.petals = petals;
 		this.sapling = sapling;
-		this.productiveCherryLoot = productiveCherryLoot;
-		this.id = id;
-		this.treeFeatureKey = ResourceKey.create(
-			Registries.CONFIGURED_FEATURE,
-			Identifier.fromNamespaceAndPath(ProductiveCherryTrees.ID, id+"_productive_cherry_tree")
-		);
+		this.treeFeatureKey = treeFeatureKey;
 	}
 
 	public static class ProductiveCherryTypeBuilder {
@@ -73,6 +79,7 @@ public class ProductiveCherryType {
 		MapColor woodColor = MapColor.TERRACOTTA_WHITE;
 		TreeGrower treeGrowerOverride;
 		ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;
+		ParticleOptions leafParticles = ParticleTypes.CHERRY_LEAVES;
 
 		ProductiveCherryTypeBuilder(String name, Identifier id, ProducedResources producedResources, ProductiveCherryLoot productiveCherryLoot) {
 			this.name = name;
@@ -94,6 +101,11 @@ public class ProductiveCherryType {
 
 		ProductiveCherryTypeBuilder setTreeFeatureKey(ResourceKey<ConfiguredFeature<?,?>> key){
 			treeFeatureKey = key;
+			return this;
+		}
+
+		ProductiveCherryTypeBuilder setLeafParticles(ParticleOptions particleType){
+			leafParticles = particleType;
 			return this;
 		}
 
@@ -196,7 +208,17 @@ public class ProductiveCherryType {
 		}
 
 		public ProductiveCherryType buildAndRegister(){
-			return null;
+			RotatedPillarBlock log = (RotatedPillarBlock) ModBlocks.registerItem(id.withSuffix("_log"),
+				RotatedPillarBlock::new,logProperties,logItemProperties);
+			ProductivePetalsBlock petals = (ProductivePetalsBlock) ModBlocks.registerItem(id.withSuffix("_petals"),
+				(p) -> new ProductivePetalsBlock(p, productiveCherryLoot),petalProperties,petalItemProperties);
+			ProductiveLeafsBlock leafs = (ProductiveLeafsBlock) ModBlocks.registerItem(id.withSuffix("_leafs"),
+				(p) -> new ProductiveLeafsBlock(0.1F, leafParticles, dropPetalsChance, petals, p),
+				leafProperties,leafItemProperties);
+			SaplingBlock sapling = (SaplingBlock) ModBlocks.registerItem(id.withSuffix("_sapling"),
+				(p) -> new SaplingBlock(treeGrowerOverride==null?createDefaultTreeGrower():treeGrowerOverride,p),
+				saplingProperties,saplingItemProperties);
+			return new ProductiveCherryType(name,id,dropPetalsChance,producedResources,productiveCherryLoot,log,leafs,petals,sapling,treeFeatureKey);
 		}
 
 	}

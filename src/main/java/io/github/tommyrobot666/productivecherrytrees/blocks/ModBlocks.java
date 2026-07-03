@@ -41,24 +41,16 @@ public class ModBlocks {
 		return Registry.register(BuiltInRegistries.BLOCK, id, block);
 	}
 
-	private static Block registerI(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
+	private static Block registerItem(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
 		Block block = register(id, factory, properties);
 		Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(block, new Item.Properties().setId(ResourceKey.create(BuiltInRegistries.ITEM.key(),id))));
 		return block;
 	}
 
-	private static Block registerI(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties, Item.Properties itemProperties) {
+	public static Block registerItem(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties, Item.Properties itemProperties) {
 		Block block = register(id, factory, properties);
 		Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(block, itemProperties.setId(ResourceKey.create(BuiltInRegistries.ITEM.key(),id))));
 		return block;
-	}
-
-	/** @noinspection unused, unused , unused */
-	private static Block registerItem(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties,
-									  BiFunction<Item.Properties, Block, Item> itemFactory, Item.Properties itemProperties) {
-		Block block = register(id, factory, properties);
-		// ModItems.register...
-		throw new UnsupportedOperationException("Function not written");
 	}
 
 	private static <T extends BlockEntity> BlockEntityType<T> registerEntity(Identifier id, FabricBlockEntityTypeBuilder.Factory<T> factory,Block... blocks){
@@ -67,7 +59,7 @@ public class ModBlocks {
 	}
 
 
-	public static final Block SAPLING_INFUSER = registerI(
+	public static final Block SAPLING_INFUSER = registerItem(
 		Identifier.fromNamespaceAndPath(ID,"sapling_infusion"),
 		SaplingInfusionBlock::new,
 		BlockBehaviour.Properties.of()
