@@ -1,6 +1,9 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
-import io.github.tommyrobot666.productivecherrytrees.ProducedResources;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveLeafsBlock;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductivePetalsBlock;
+import io.github.tommyrobot666.productivecherrytrees.datagen.ProductiveCherryLoot;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -76,16 +79,16 @@ public class ModBlocks {
 			SaplingInfusionBlockEntity::new,
 			SAPLING_INFUSER);
 
-	private static ProductiveCherryType registerCherry(String id, ProducedResources producedResources, double dropPetalsChance, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
-		return registerCherry(id,producedResources,dropPetalsChance,new Item.Properties(),logSideColor,logTopColor,leafsColor,petalsColor);
+	private static ProductiveCherryType registerCherry(String id, ProductiveCherryLoot productiveCherryLoot, double dropPetalsChance, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
+		return registerCherry(id, productiveCherryLoot,dropPetalsChance,new Item.Properties(),logSideColor,logTopColor,leafsColor,petalsColor);
 	}
 
-	private static ProductiveCherryType registerCherry(String id, ProducedResources producedResources, double dropPetalsChance, Item.Properties petalProperties, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
+	private static ProductiveCherryType registerCherry(String id, ProductiveCherryLoot productiveCherryLoot, double dropPetalsChance, Item.Properties petalProperties, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
 		Block log = registerI(Identifier.tryBuild(ID, id+"_log"), RotatedPillarBlock::new,
 			BlockBehaviour.Properties.of().sound(SoundType.WOOD).ignitedByLava().strength(2f)
 				.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor)));
 		ProductivePetalsBlock petals = (ProductivePetalsBlock) registerI(Identifier.tryBuild(ID, id+"_petals"),
-			(p) -> new ProductivePetalsBlock(p, producedResources),
+			(p) -> new ProductivePetalsBlock(p, productiveCherryLoot),
 			BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).strength(.3f).mapColor(petalsColor),petalProperties);
 		Block leafs = registerI(Identifier.tryBuild(ID, id+"_leafs"),
 			(p) -> new ProductiveLeafsBlock(0.1F, ParticleTypes.CHERRY_LEAVES, dropPetalsChance, petals, p),
@@ -100,27 +103,27 @@ public class ModBlocks {
 		Block sapling = registerI(Identifier.tryBuild(ID, id+"_sapling"),
 			(p) -> new SaplingBlock(treeGrower,p),
 			BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SAPLING).mapColor(petalsColor));
-		return new ProductiveCherryType(log,leafs, petals,sapling,producedResources,id);
+		return new ProductiveCherryType(log,leafs, petals,sapling, productiveCherryLoot,id);
 	}
 
-	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",new ProducedResources().with(Items.PINK_CONCRETE,2),
+	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",new ProductiveCherryLoot().with(Items.PINK_CONCRETE,2),
 		0.1f,MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
 
 	public static final ProductiveCherryType GOLD_CHERRY = registerCherry("gold",
-		new ProducedResources().with(Items.RAW_GOLD,3,0.3).with(Items.GOLD_INGOT,.01).with(Items.GOLD_NUGGET,7),
+		new ProductiveCherryLoot().with(Items.RAW_GOLD,3,0.3).with(Items.GOLD_INGOT,.01).with(Items.GOLD_NUGGET,7),
 		0.05f,MapColor.GOLD,MapColor.TERRACOTTA_WHITE,MapColor.GOLD,MapColor.GOLD);
 
 	public static final ProductiveCherryType STONE_CHERRY = registerCherry("stone",
-		new ProducedResources().with(Items.COBBLESTONE,5).with(Items.STONE,3,1.7)
+		new ProductiveCherryLoot().with(Items.COBBLESTONE,5).with(Items.STONE,3,1.7)
 			.with(Items.COBBLED_DEEPSLATE,.1).with(Items.GOLD_NUGGET,.01),
 		0.13f,MapColor.TERRACOTTA_GRAY,MapColor.COLOR_GRAY,MapColor.COLOR_LIGHT_GRAY,MapColor.COLOR_LIGHT_GRAY);
 
 	public static final ProductiveCherryType FIRE_CHERRY = registerCherry("fire",
-		new ProducedResources().placeBlock(Blocks.FIRE).dropSelf(),0.09f,
+		new ProductiveCherryLoot().placeBlock(Blocks.FIRE).dropSelf(),0.09f,
 		new Item.Properties().fireResistant(),MapColor.FIRE,MapColor.COLOR_GRAY,MapColor.FIRE,MapColor.FIRE);
 
 	public static final ProductiveCherryType WATER_CHERRY = registerCherry("water",
-		new ProducedResources().with(Items.POTION,3,57,
+		new ProductiveCherryLoot().with(Items.POTION,3,57,
 				DataComponentMap.builder().set(DataComponents.MAX_STACK_SIZE,64)
 					.set(DataComponents.POTION_CONTENTS,new PotionContents(Potions.WATER))
 					.set(DataComponents.CUSTOM_NAME,

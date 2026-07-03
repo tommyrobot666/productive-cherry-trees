@@ -1,7 +1,7 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
-import io.github.tommyrobot666.productivecherrytrees.blocks.ProductiveCherryType;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;

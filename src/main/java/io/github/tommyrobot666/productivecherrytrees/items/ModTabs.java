@@ -1,7 +1,7 @@
 package io.github.tommyrobot666.productivecherrytrees.items;
 
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
-import io.github.tommyrobot666.productivecherrytrees.blocks.ProductiveCherryType;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;

@@ -1,9 +1,8 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
-import io.github.tommyrobot666.productivecherrytrees.ProducedResources;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
-import io.github.tommyrobot666.productivecherrytrees.blocks.ProductiveCherryType;
-import io.github.tommyrobot666.productivecherrytrees.blocks.ProductivePetalsBlock;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductivePetalsBlock;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
@@ -29,12 +28,12 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 
 	public static final double BIG_NUMBER_CHANCE_TO_INT = 100000000;
 	void petalsDrops(ProductivePetalsBlock petals){
-		if (petals.producedResources.dropSelf){
+		if (petals.productiveCherryLoot.dropSelf){
 			this.add(petals,createSegmentedBlockDrops(petals));
 			return;
 		}
 
-		double totalValue = petals.producedResources.totalValue();
+		double totalValue = petals.productiveCherryLoot.totalValue();
 
 		LootTable.Builder table = LootTable.lootTable()
 			.withPool(LootPool.lootPool().when(hasShearsOrSilkTouch())
@@ -50,7 +49,7 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 			LootPool.Builder pool = LootPool.lootPool().when(doesNotHaveShearsOrSilkTouch())
 				.when(poolBlockState);
 
-			for (ProducedResources.ProducedResource producedResource : petals.producedResources.v) {
+			for (ProductiveCherryLoot.ProducedResource producedResource : petals.productiveCherryLoot.v) {
 				LootPoolSingletonContainer.Builder<?> item = LootItem.lootTableItem(producedResource.item())
 					.setWeight((int) (BIG_NUMBER_CHANCE_TO_INT*((producedResource.value()*i)/totalValue)))
 					.apply(SetItemCountFunction.setCount(new UniformGenerator(new ConstantValue(0), new ConstantValue(producedResource.count()*i))));

@@ -1,4 +1,4 @@
-package io.github.tommyrobot666.productivecherrytrees.blocks;
+package io.github.tommyrobot666.productivecherrytrees.blocks.cherry;
 
 import io.github.tommyrobot666.productivecherrytrees.recipes.ModRecipeTypes;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipe;

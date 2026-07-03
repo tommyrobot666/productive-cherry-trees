@@ -1,7 +1,7 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
-import io.github.tommyrobot666.productivecherrytrees.blocks.ProductiveCherryType;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipeBuilder;
 import io.github.tommyrobot666.productivecherrytrees.recipes.SaplingInfusionRecipeBuilder;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;

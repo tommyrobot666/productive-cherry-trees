@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductivePetalsBlock;
 import io.github.tommyrobot666.productivecherrytrees.recipes.ModRecipeTypes;
 import io.github.tommyrobot666.productivecherrytrees.recipes.SaplingInfusionRecipe;
 import io.github.tommyrobot666.productivecherrytrees.recipes.TwoBlocksInput;
