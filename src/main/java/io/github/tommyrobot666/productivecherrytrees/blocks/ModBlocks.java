@@ -1,15 +1,13 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
-import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveLeafsBlock;
-import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductivePetalsBlock;
 import io.github.tommyrobot666.productivecherrytrees.datagen.ProductiveCherryLoot;
+import io.github.tommyrobot666.productivecherrytrees.items.ModItems;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
-import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentMap;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
@@ -23,13 +21,11 @@ import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Optional;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -41,15 +37,16 @@ public class ModBlocks {
 		return Registry.register(BuiltInRegistries.BLOCK, id, block);
 	}
 
-	private static Block registerItem(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
+	private static Block registerWithItem(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
 		Block block = register(id, factory, properties);
 		Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(block, new Item.Properties().setId(ResourceKey.create(BuiltInRegistries.ITEM.key(),id))));
 		return block;
 	}
 
-	public static Block registerItem(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties, Item.Properties itemProperties) {
+	public static Block registerWithItem(Identifier id, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties, BiFunction<Block, Item.Properties, Item> itemFactory, Item.Properties itemProperties) {
 		Block block = register(id, factory, properties);
-		Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(block, itemProperties.setId(ResourceKey.create(BuiltInRegistries.ITEM.key(),id))));
+		Item item = itemFactory.apply(block,itemProperties.setId(ResourceKey.create(Registries.ITEM,id)));
+		Registry.register(BuiltInRegistries.ITEM, id, item);
 		return block;
 	}
 
@@ -59,11 +56,11 @@ public class ModBlocks {
 	}
 
 
-	public static final Block SAPLING_INFUSER = registerItem(
+	public static final Block SAPLING_INFUSER = registerWithItem(
 		Identifier.fromNamespaceAndPath(ID,"sapling_infusion"),
 		SaplingInfusionBlock::new,
 		BlockBehaviour.Properties.of()
-			.mapColor(MapColor.GOLD).instrument(NoteBlockInstrument.BELL)
+			.mapColor(MapColor.COLOR_GRAY).instrument(NoteBlockInstrument.BELL)
 			.strength(3.0F, 6.0F).sound(SoundType.METAL));
 
 	public static final BlockEntityType<@NotNull SaplingInfusionBlockEntity> SAPLING_INFUSER_ENTITY =
@@ -71,38 +68,58 @@ public class ModBlocks {
 			SaplingInfusionBlockEntity::new,
 			SAPLING_INFUSER);
 
-	private static ProductiveCherryType registerCherry(String id, ProductiveCherryLoot productiveCherryLoot, double dropPetalsChance, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
-		return registerCherry(id, productiveCherryLoot,dropPetalsChance,new Item.Properties(),logSideColor,logTopColor,leafsColor,petalsColor);
-	}
+	public static final ProductiveCherryType TEST_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("test")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.PINK_CONCRETE,2))
+		.setDropPetalsChance(.1f)
+		.setLogSideColor(MapColor.TERRACOTTA_WHITE)
+		.setLogTopColor(MapColor.COLOR_LIGHT_GREEN)
+		.setLeafsColor(MapColor.COLOR_PINK)
+		.setPetalsColor(MapColor.COLOR_PINK)
+		.buildAndRegister();
 
-	private static ProductiveCherryType registerCherry(String id, ProductiveCherryLoot productiveCherryLoot, double dropPetalsChance, Item.Properties petalProperties, MapColor logSideColor, MapColor logTopColor, MapColor leafsColor, MapColor petalsColor) {
-		return new ProductiveCherryType.ProductiveCherryTypeBuilder(id, Identifier.fromNamespaceAndPath(ID,id),null,productiveCherryLoot).setDropPetalsChance(dropPetalsChance).setLogSideColor(logSideColor).setLogTopColor(logTopColor).setLeafsColor(leafsColor).setPetalsColor(petalsColor).buildAndRegister();
-	}
+	public static final ProductiveCherryType GOLD_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("gold")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.RAW_GOLD,3,0.3).with(Items.GOLD_INGOT,.01).with(Items.GOLD_NUGGET,7))
+		.setDropPetalsChance(.05f)
+		.setLogSideColor(MapColor.GOLD)
+		.setLogTopColor(MapColor.TERRACOTTA_WHITE)
+		.setLeafsColor(MapColor.GOLD)
+		.setPetalsColor(MapColor.GOLD)
+		.buildAndRegister();
 
-	public static final ProductiveCherryType TEST_CHERRY = registerCherry("test",new ProductiveCherryLoot().with(Items.PINK_CONCRETE,2),
-		0.1f,MapColor.TERRACOTTA_WHITE,MapColor.COLOR_LIGHT_GREEN,MapColor.COLOR_PINK,MapColor.COLOR_PINK);
+	public static final ProductiveCherryType STONE_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("stone")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.COBBLESTONE,5).with(Items.STONE,3,1.7)
+			.with(Items.COBBLED_DEEPSLATE,.1).with(Items.GOLD_NUGGET,.01))
+		.setDropPetalsChance(.13f)
+		.setLogSideColor(MapColor.TERRACOTTA_GRAY)
+		.setLogTopColor(MapColor.COLOR_GRAY)
+		.setLeafsColor(MapColor.COLOR_LIGHT_GRAY)
+		.setPetalsColor(MapColor.COLOR_LIGHT_GRAY)
+		.buildAndRegister();
 
-	public static final ProductiveCherryType GOLD_CHERRY = registerCherry("gold",
-		new ProductiveCherryLoot().with(Items.RAW_GOLD,3,0.3).with(Items.GOLD_INGOT,.01).with(Items.GOLD_NUGGET,7),
-		0.05f,MapColor.GOLD,MapColor.TERRACOTTA_WHITE,MapColor.GOLD,MapColor.GOLD);
+	public static final ProductiveCherryType FIRE_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("fire")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().placeBlock(Blocks.FIRE).dropSelf())
+		.changePetalItemProperties(Item.Properties::fireResistant)
+		.setDropPetalsChance(.09f)
+		.setLogSideColor(MapColor.FIRE)
+		.setLogTopColor(MapColor.COLOR_GRAY)
+		.setLeafsColor(MapColor.FIRE)
+		.setPetalsColor(MapColor.FIRE)
+		.buildAndRegister();
 
-	public static final ProductiveCherryType STONE_CHERRY = registerCherry("stone",
-		new ProductiveCherryLoot().with(Items.COBBLESTONE,5).with(Items.STONE,3,1.7)
-			.with(Items.COBBLED_DEEPSLATE,.1).with(Items.GOLD_NUGGET,.01),
-		0.13f,MapColor.TERRACOTTA_GRAY,MapColor.COLOR_GRAY,MapColor.COLOR_LIGHT_GRAY,MapColor.COLOR_LIGHT_GRAY);
-
-	public static final ProductiveCherryType FIRE_CHERRY = registerCherry("fire",
-		new ProductiveCherryLoot().placeBlock(Blocks.FIRE).dropSelf(),0.09f,
-		new Item.Properties().fireResistant(),MapColor.FIRE,MapColor.COLOR_GRAY,MapColor.FIRE,MapColor.FIRE);
-
-	public static final ProductiveCherryType WATER_CHERRY = registerCherry("water",
-		new ProductiveCherryLoot().with(Items.POTION,3,57,
+	public static final ProductiveCherryType WATER_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("water")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.POTION,3,57,
 				DataComponentMap.builder().set(DataComponents.MAX_STACK_SIZE,64)
 					.set(DataComponents.POTION_CONTENTS,new PotionContents(Potions.WATER))
 					.set(DataComponents.CUSTOM_NAME,
 						Component.translatableWithFallback("item."+ID+".compressed_bottle","Water Bottle With Higher Stack Size")).build())
-			.with(0.1,Items.BUBBLE_CORAL_FAN,Items.BRAIN_CORAL_FAN,Items.FIRE_CORAL_FAN,Items.HORN_CORAL_FAN,Items.TUBE_CORAL_FAN),
-		0.09f,MapColor.WATER,MapColor.WATER,MapColor.WATER,MapColor.WATER);
+			.with(0.1,Items.BUBBLE_CORAL_FAN,Items.BRAIN_CORAL_FAN,Items.FIRE_CORAL_FAN,Items.HORN_CORAL_FAN,Items.TUBE_CORAL_FAN))
+		.changePetalItemProperties(Item.Properties::fireResistant)
+		.setDropPetalsChance(.09f)
+		.setLogSideColor(MapColor.WATER)
+		.setLogTopColor(MapColor.WATER)
+		.setLeafsColor(MapColor.WATER)
+		.setPetalsColor(MapColor.WATER)
+		.buildAndRegister();
 
 	public static void register(){}
 }
