@@ -1,9 +1,7 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
-import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.datagen.ProductiveCherryLoot;
-import io.github.tommyrobot666.productivecherrytrees.items.ModItems;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentMap;
@@ -68,7 +66,7 @@ public class ModBlocks {
 			SaplingInfusionBlockEntity::new,
 			SAPLING_INFUSER);
 
-	public static final ProductiveCherryType TEST_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("test")
+	public static final ProductiveCherryType TEST_CHERRY = new ProductiveCherryType.Builder("test")
 		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.PINK_CONCRETE,2))
 		.setDropPetalsChance(.1f)
 		.setLogSideColor(MapColor.TERRACOTTA_WHITE)
@@ -77,7 +75,7 @@ public class ModBlocks {
 		.setPetalsColor(MapColor.COLOR_PINK)
 		.buildAndRegister();
 
-	public static final ProductiveCherryType GOLD_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("gold")
+	public static final ProductiveCherryType GOLD_CHERRY = new ProductiveCherryType.Builder("gold")
 		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.RAW_GOLD,3,0.3).with(Items.GOLD_INGOT,.01).with(Items.GOLD_NUGGET,7))
 		.setDropPetalsChance(.05f)
 		.setLogSideColor(MapColor.GOLD)
@@ -86,7 +84,7 @@ public class ModBlocks {
 		.setPetalsColor(MapColor.GOLD)
 		.buildAndRegister();
 
-	public static final ProductiveCherryType STONE_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("stone")
+	public static final ProductiveCherryType STONE_CHERRY = new ProductiveCherryType.Builder("stone")
 		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.COBBLESTONE,5).with(Items.STONE,3,1.7)
 			.with(Items.COBBLED_DEEPSLATE,.1).with(Items.GOLD_NUGGET,.01))
 		.setDropPetalsChance(.13f)
@@ -96,9 +94,10 @@ public class ModBlocks {
 		.setPetalsColor(MapColor.COLOR_LIGHT_GRAY)
 		.buildAndRegister();
 
-	public static final ProductiveCherryType FIRE_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("fire")
-		.setProductiveCherryLoot(new ProductiveCherryLoot().placeBlock(Blocks.FIRE).dropSelf())
+	public static final ProductiveCherryType FIRE_CHERRY = new ProductiveCherryType.Builder("fire")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().dropSelf())
 		.changePetalItemProperties(Item.Properties::fireResistant)
+		.petalsPlaceBlock(Blocks.FIRE.defaultBlockState())
 		.setDropPetalsChance(.09f)
 		.setLogSideColor(MapColor.FIRE)
 		.setLogTopColor(MapColor.COLOR_GRAY)
@@ -106,7 +105,7 @@ public class ModBlocks {
 		.setPetalsColor(MapColor.FIRE)
 		.buildAndRegister();
 
-	public static final ProductiveCherryType WATER_CHERRY = new ProductiveCherryType.ProductiveCherryTypeBuilder("water")
+	public static final ProductiveCherryType WATER_CHERRY = new ProductiveCherryType.Builder("water")
 		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.POTION,3,57,
 				DataComponentMap.builder().set(DataComponents.MAX_STACK_SIZE,64)
 					.set(DataComponents.POTION_CONTENTS,new PotionContents(Potions.WATER))

@@ -10,7 +10,6 @@ import java.util.Optional;
 
 public class ProductiveCherryLoot {
 	public final List<ProducedResource> v = new ArrayList<>();
-	public Block placedBlock = null;
 	public boolean dropSelf = false;
 
 	public ProductiveCherryLoot with(double countChance, Item... items){
@@ -36,11 +35,6 @@ public class ProductiveCherryLoot {
 	/** @noinspection unused*/
 	public ProductiveCherryLoot with(Item item, int count, double chance, DataComponentMap components){
 		v.add(new ProducedResource(item,count,chance,Optional.of(components)));
-		return this;
-	}
-
-	public ProductiveCherryLoot placeBlock(Block placedBlock){
-		this.placedBlock = placedBlock;
 		return this;
 	}
 

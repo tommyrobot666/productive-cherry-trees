@@ -13,6 +13,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.material.MapColor;
 
@@ -26,8 +27,7 @@ public class ProductiveCherryType {
 	public final Identifier id;
 	public final double dropPetalsChance;
 	public final ProducedResources producedResources;
-	/// Used for loot datagen
-	public final ProductiveCherryLoot productiveCherryLoot;
+	public final DatagenSettings datagenSettings;
 	public final RotatedPillarBlock log;
 	public final ProductiveLeafsBlock leafs;
 	public final ProductivePetalsBlock petals;
@@ -35,12 +35,12 @@ public class ProductiveCherryType {
 	/// Used for tree datagen
 	public final ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;
 
-	public ProductiveCherryType(String name, Identifier id, double dropPetalsChance, ProducedResources producedResources, ProductiveCherryLoot productiveCherryLoot, RotatedPillarBlock log, ProductiveLeafsBlock leafs, ProductivePetalsBlock petals, SaplingBlock sapling, ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey) {
+	public ProductiveCherryType(String name, Identifier id, double dropPetalsChance, ProducedResources producedResources, DatagenSettings datagenSettings, RotatedPillarBlock log, ProductiveLeafsBlock leafs, ProductivePetalsBlock petals, SaplingBlock sapling, ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey) {
 		this.name = name;
 		this.id = id;
 		this.dropPetalsChance = dropPetalsChance;
 		this.producedResources = producedResources;
-		this.productiveCherryLoot = productiveCherryLoot;
+		this.datagenSettings = datagenSettings;
 		this.log = log;
 		this.leafs = leafs;
 		this.petals = petals;
@@ -48,13 +48,14 @@ public class ProductiveCherryType {
 		this.treeFeatureKey = treeFeatureKey;
 	}
 
-	public static class ProductiveCherryTypeBuilder {
+	public static class Builder {
 		/// Shown to user in en_us
 		String name;
 		/// Internal name
 		Identifier id;
 		ProducedResources producedResources = null;
-		ProductiveCherryLoot productiveCherryLoot = null;
+		DatagenSettings datagenSettings = new DatagenSettings();
+		BlockState petalsPlacedBlock = null;
 		double dropPetalsChance = 1;
 		Item.Properties petalItemProperties = new Item.Properties();
 		Item.Properties leafItemProperties = new Item.Properties();
@@ -79,77 +80,92 @@ public class ProductiveCherryType {
 		ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;
 		ParticleOptions leafParticles = ParticleTypes.CHERRY_LEAVES;
 
-		public ProductiveCherryTypeBuilder(String id){
+		public Builder(String id){
 			this(id, Identifier.fromNamespaceAndPath(ID,id));
 		}
 
-		public ProductiveCherryTypeBuilder(String name, Identifier id) {
+		public Builder(String name, Identifier id) {
 			this.name = name;
 			this.id = id;
 			treeFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE,id);
 		}
 
-		public ProductiveCherryTypeBuilder setProducedResources(ProducedResources producedResources){
+		public Builder petalsPlaceBlock(BlockState placedBlock){
+			this.petalsPlacedBlock = placedBlock;
+			return this;
+		}
+
+		public Builder setProducedResources(ProducedResources producedResources){
 			this.producedResources = producedResources;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setProductiveCherryLoot(ProductiveCherryLoot productiveCherryLoot){
-			this.productiveCherryLoot = productiveCherryLoot;
+		public Builder changeProducedResources(Consumer<ProducedResources> consumer){
+			consumer.accept(producedResources);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setDropPetalsChance(double dropPetalsChance){
+		public Builder setProductiveCherryLoot(ProductiveCherryLoot productiveCherryLoot){
+			this.datagenSettings.productiveCherryLoot = productiveCherryLoot;
+			return this;
+		}
+
+		public Builder changeProductiveCherryLoot(Consumer<ProductiveCherryLoot> consumer){
+			consumer.accept(datagenSettings.productiveCherryLoot);
+			return this;
+		}
+
+		public Builder setDropPetalsChance(double dropPetalsChance){
 			this.dropPetalsChance = dropPetalsChance;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setTreeGrowerOverride(TreeGrower treeGrower){
+		public Builder setTreeGrowerOverride(TreeGrower treeGrower){
 			treeGrowerOverride = treeGrower;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setTreeFeatureKey(ResourceKey<ConfiguredFeature<?,?>> key){
+		public Builder setTreeFeatureKey(ResourceKey<ConfiguredFeature<?,?>> key){
 			treeFeatureKey = key;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setLeafParticles(ParticleOptions particleType){
+		public Builder setLeafParticles(ParticleOptions particleType){
 			leafParticles = particleType;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setLogSideColor(MapColor color){
+		public Builder setLogSideColor(MapColor color){
 			logSideColor = color;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setLogTopColor(MapColor color){
+		public Builder setLogTopColor(MapColor color){
 			logTopColor = color;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setLeafsColor(MapColor color){
+		public Builder setLeafsColor(MapColor color){
 			leafsColor = color;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setPetalsColor(MapColor color){
+		public Builder setPetalsColor(MapColor color){
 			petalsColor = color;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setSaplingColor(MapColor color){
+		public Builder setSaplingColor(MapColor color){
 			saplingColor = color;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder setWoodColor(MapColor color){
+		public Builder setWoodColor(MapColor color){
 			woodColor = color;
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder applyMapColors(){
+		public Builder applyMapColors(){
 			logProperties.mapColor((state -> state.getValue(RotatedPillarBlock.AXIS) == Direction.Axis.Y ? logTopColor : logSideColor));
 			petalProperties.mapColor(petalsColor);
 			leafProperties.mapColor(leafsColor);
@@ -158,52 +174,52 @@ public class ProductiveCherryType {
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changePetalProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public Builder changePetalProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(petalProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changeLeafProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public Builder changeLeafProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(leafProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changeLogProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public Builder changeLogProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(logProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changeSaplingProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public Builder changeSaplingProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(saplingProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changeWoodProperties(Consumer<BlockBehaviour.Properties> consumer){
+		public Builder changeWoodProperties(Consumer<BlockBehaviour.Properties> consumer){
 			consumer.accept(woodProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changePetalItemProperties(Consumer<Item.Properties> consumer){
+		public Builder changePetalItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(petalItemProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changeLeafItemProperties(Consumer<Item.Properties> consumer){
+		public Builder changeLeafItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(leafItemProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changeLogItemProperties(Consumer<Item.Properties> consumer){
+		public Builder changeLogItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(logItemProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changeSaplingItemProperties(Consumer<Item.Properties> consumer){
+		public Builder changeSaplingItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(saplingItemProperties);
 			return this;
 		}
 
-		public ProductiveCherryTypeBuilder changeWoodItemProperties(Consumer<Item.Properties> consumer){
+		public Builder changeWoodItemProperties(Consumer<Item.Properties> consumer){
 			consumer.accept(woodItemProperties);
 			return this;
 		}
@@ -221,15 +237,25 @@ public class ProductiveCherryType {
 			RotatedPillarBlock log = (RotatedPillarBlock) ModBlocks.registerWithItem(id.withSuffix("_log"),
 				RotatedPillarBlock::new,logProperties, BlockItem::new,logItemProperties);
 			ProductivePetalsBlock petals = (ProductivePetalsBlock) ModBlocks.registerWithItem(id.withSuffix("_petals"),
-				(p) -> new ProductivePetalsBlock(p, productiveCherryLoot),petalProperties,BlockItem::new,petalItemProperties);
+				(p) -> new ProductivePetalsBlock(p, petalsPlacedBlock),petalProperties,BlockItem::new,petalItemProperties);
 			ProductiveLeafsBlock leafs = (ProductiveLeafsBlock) ModBlocks.registerWithItem(id.withSuffix("_leafs"),
 				(p) -> new ProductiveLeafsBlock(0.1F, leafParticles, dropPetalsChance, petals, p),
 				leafProperties,BlockItem::new,leafItemProperties);
 			SaplingBlock sapling = (SaplingBlock) ModBlocks.registerWithItem(id.withSuffix("_sapling"),
 				(p) -> new SaplingBlock(treeGrowerOverride==null?createDefaultTreeGrower():treeGrowerOverride,p),
 				saplingProperties,BlockItem::new,saplingItemProperties);
-			return new ProductiveCherryType(name,id,dropPetalsChance,producedResources,productiveCherryLoot,log,leafs,petals,sapling,treeFeatureKey);
+			return new ProductiveCherryType(name,id,dropPetalsChance,producedResources,datagenSettings,log,leafs,petals,sapling,treeFeatureKey);
 		}
 
+	}
+
+	public static class DatagenSettings {
+		ProductiveCherryLoot productiveCherryLoot = null;
+		boolean genLoot;
+		boolean genModels;
+		boolean genRecipes;
+		boolean genEnLang;
+		boolean genTree;
+		boolean genTags;
 	}
 }
