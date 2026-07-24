@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -30,8 +31,9 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
 
 	@Override
 	public void generateTranslations(HolderLookup.@NotNull Provider reg, @NotNull TranslationBuilder tb) {
-		cherryLang(ModBlocks.TEST_CHERRY,tb);
-		DataGen.genCherryDefaultAssets.forEach((t) -> cherryLang(t,tb));
+		ProductiveCherryTrees.CHERRY_TYPES.forEach((t) -> {
+			if (t.datagenSettings.genEnLang) cherryLang(t,tb);
+		});
 
 		tb.add(ModBlocks.SAPLING_INFUSER,"Sapling Infuser");
 		tb.add(ModBlocks.SAPLING_INFUSER.asItem(),"Sapling Infuser");

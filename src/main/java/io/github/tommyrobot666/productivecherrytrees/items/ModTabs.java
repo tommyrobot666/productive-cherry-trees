@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.items;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
@@ -26,11 +27,7 @@ public class ModTabs {
 		.icon(() -> new ItemStack(ModBlocks.TEST_CHERRY.sapling.asItem()))
 		.title(Component.translatable("tab."+ID))
 		.displayItems((p,o) ->{
-			addCherryItems(ModBlocks.TEST_CHERRY,o);
-			addCherryItems(ModBlocks.STONE_CHERRY,o);
-			addCherryItems(ModBlocks.GOLD_CHERRY,o);
-			addCherryItems(ModBlocks.FIRE_CHERRY,o);
-			addCherryItems(ModBlocks.WATER_CHERRY,o);
+			ProductiveCherryTrees.CHERRY_TYPES.forEach((t)->addCherryItems(t,o));
 			o.accept(ModBlocks.SAPLING_INFUSER);
 		}).build());
 

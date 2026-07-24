@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.blocks.SaplingInfusionBlock;
@@ -39,8 +40,9 @@ public class ModelProvider extends FabricModelProvider {
 
 	@Override
 	public void generateBlockStateModels(@NotNull BlockModelGenerators g) {
-		cherryModels(ModBlocks.TEST_CHERRY,g);
-		DataGen.genCherryDefaultAssets.forEach((t) -> cherryModels(t,g));
+		ProductiveCherryTrees.CHERRY_TYPES.forEach((t) -> {
+			if (t.datagenSettings.genModels) cherryModels(t,g);
+		});
 
 		createSaplingInfuser(g);
 	}

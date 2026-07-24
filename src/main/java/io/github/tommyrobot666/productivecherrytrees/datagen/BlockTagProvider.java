@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
@@ -35,8 +36,9 @@ public class BlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
 
 	@Override
 	protected void addTags(HolderLookup.@NotNull Provider reg) {
-		cherryTags(ModBlocks.TEST_CHERRY);
-		DataGen.genCherryDefaultAssets.forEach(this::cherryTags);
+		ProductiveCherryTrees.CHERRY_TYPES.forEach((t) -> {
+			if (t.datagenSettings.genTags) cherryTags(t);
+		});
 
 		valueLookupBuilder(MINEABLE_PICKAXE)
 			.add(ModBlocks.SAPLING_INFUSER);

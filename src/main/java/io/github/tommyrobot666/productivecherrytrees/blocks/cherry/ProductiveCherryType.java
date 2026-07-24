@@ -1,8 +1,10 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks.cherry;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.datagen.ProductiveCherryLoot;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.core.registries.Registries;
@@ -88,6 +90,11 @@ public class ProductiveCherryType {
 			this.name = name;
 			this.id = id;
 			treeFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE,id);
+		}
+
+		public Builder changeDatagenSettings(Consumer<DatagenSettings> consumer){
+			consumer.accept(datagenSettings);
+			return this;
 		}
 
 		public Builder petalsPlaceBlock(BlockState placedBlock){
@@ -244,18 +251,21 @@ public class ProductiveCherryType {
 			SaplingBlock sapling = (SaplingBlock) ModBlocks.registerWithItem(id.withSuffix("_sapling"),
 				(p) -> new SaplingBlock(treeGrowerOverride==null?createDefaultTreeGrower():treeGrowerOverride,p),
 				saplingProperties,BlockItem::new,saplingItemProperties);
-			return new ProductiveCherryType(name,id,dropPetalsChance,producedResources,datagenSettings,log,leafs,petals,sapling,treeFeatureKey);
+
+			ProductiveCherryType productiveCherryType = new ProductiveCherryType(name,id,dropPetalsChance,producedResources,datagenSettings,log,leafs,petals,sapling,treeFeatureKey);
+			Registry.register(ProductiveCherryTrees.CHERRY_TYPES,id,productiveCherryType);
+			return productiveCherryType;
 		}
 
 	}
 
 	public static class DatagenSettings {
-		ProductiveCherryLoot productiveCherryLoot = null;
-		boolean genLoot;
-		boolean genModels;
-		boolean genRecipes;
-		boolean genEnLang;
-		boolean genTree;
-		boolean genTags;
+		public ProductiveCherryLoot productiveCherryLoot = null;
+		public boolean genLoot = true;
+		public boolean genModels = true;
+		public boolean genRecipes = true;
+		public boolean genEnLang = true;
+		public boolean genTree = true;
+		public boolean genTags = true;
 	}
 }

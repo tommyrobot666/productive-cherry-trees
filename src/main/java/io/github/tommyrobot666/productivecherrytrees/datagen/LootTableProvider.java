@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductivePetalsBlock;
@@ -27,13 +28,15 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 	}
 
 	public static final double BIG_NUMBER_CHANCE_TO_INT = 100000000;
-	void petalsDrops(ProductivePetalsBlock petals){
-		if (petals.productiveCherryLoot.dropSelf){
+	void petalsDrops(ProductiveCherryType type){
+		ProductivePetalsBlock petals = type.petals;
+
+		if (type.datagenSettings.productiveCherryLoot.dropSelf){
 			this.add(petals,createSegmentedBlockDrops(petals));
 			return;
 		}
 
-		double totalValue = petals.productiveCherryLoot.totalValue();
+		double totalValue = type.datagenSettings.productiveCherryLoot.totalValue();
 
 		LootTable.Builder table = LootTable.lootTable()
 			.withPool(LootPool.lootPool().when(hasShearsOrSilkTouch())
@@ -49,7 +52,7 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 			LootPool.Builder pool = LootPool.lootPool().when(doesNotHaveShearsOrSilkTouch())
 				.when(poolBlockState);
 
-			for (ProductiveCherryLoot.ProducedResource producedResource : petals.productiveCherryLoot.v) {
+			for (ProductiveCherryLoot.ProducedResource producedResource : type.datagenSettings.productiveCherryLoot.v) {
 				LootPoolSingletonContainer.Builder<?> item = LootItem.lootTableItem(producedResource.item())
 					.setWeight((int) (BIG_NUMBER_CHANCE_TO_INT*((producedResource.value()*i)/totalValue)))
 					.apply(SetItemCountFunction.setCount(new UniformGenerator(new ConstantValue(0), new ConstantValue(producedResource.count()*i))));
@@ -76,13 +79,14 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 		dropSelf(type.log);
 		add(type.leafs,createLeavesDrops(type.leafs,type.sapling,0.1f));
 		dropSelf(type.sapling);
-		petalsDrops(type.petals);
+		petalsDrops(type);
 	}
 
 	@Override
 	public void generate() {
-		cherryDrops(ModBlocks.TEST_CHERRY);
-		DataGen.genCherryDefaultAssets.forEach(this::cherryDrops);
+		ProductiveCherryTrees.CHERRY_TYPES.forEach((t) -> {
+			if (t.datagenSettings.genLoot) cherryDrops(t);
+		});
 
 		dropSelf(ModBlocks.SAPLING_INFUSER);
 	}

@@ -1,5 +1,6 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
+import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipeBuilder;
@@ -65,8 +66,9 @@ public class RecipesProvider extends FabricRecipeProvider {
 		return new RecipeProvider(reg,o) {
 			@Override
 			public void buildRecipes() {
-				cherryRecipes(ModBlocks.TEST_CHERRY,this,o);
-				DataGen.genCherryDefaultAssets.forEach((t) -> cherryRecipes(t,this,o));
+				ProductiveCherryTrees.CHERRY_TYPES.forEach((t) -> {
+					if (t.datagenSettings.genRecipes) cherryRecipes(t,this,o);
+				});
 
 				shaped(RecipeCategory.MISC, ModBlocks.SAPLING_INFUSER)
 					.pattern("iii")
