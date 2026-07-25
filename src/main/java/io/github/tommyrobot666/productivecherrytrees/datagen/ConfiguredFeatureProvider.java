@@ -73,7 +73,7 @@ public class ConfiguredFeatureProvider extends FabricDynamicRegistryProvider {
 
 	public static void bootStrap(BootstrapContext<ConfiguredFeature<?,?>> cfContext) {
 		ProductiveCherryTrees.CHERRY_TYPES.forEach((t) -> {
-			if (t.datagenSettings.genTree) cfContext.register(t.treeFeatureKey,new ConfiguredFeature<>(Feature.TREE,createCherryTree(t)));
+			if (t.datagenSettings.genTree) cfContext.register(t.datagenSettings.treeFeatureKey,new ConfiguredFeature<>(Feature.TREE,createCherryTree(t)));
 		});
 	}
 }

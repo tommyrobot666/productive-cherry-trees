@@ -19,6 +19,13 @@ public class ModTabs {
 		o.accept(type.petals);
 		o.accept(type.leafs);
 		o.accept(type.log);
+		o.accept(type.planks);
+		o.accept(type.slab);
+		o.accept(type.stairs);
+		o.accept(type.fence);
+		o.accept(type.fenceGate);
+		o.accept(type.button);
+		o.accept(type.pressurePlate);
 	}
 
 	public static final CreativeModeTab TAB = Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB,

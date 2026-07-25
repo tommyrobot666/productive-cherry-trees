@@ -16,6 +16,8 @@ import net.minecraft.world.level.block.*;
 import net.minecraft.world.level.block.grower.TreeGrower;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockSetType;
+import net.minecraft.world.level.block.state.properties.WoodType;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.material.MapColor;
 
@@ -34,10 +36,16 @@ public class ProductiveCherryType {
 	public final ProductiveLeafsBlock leafs;
 	public final ProductivePetalsBlock petals;
 	public final SaplingBlock sapling;
+	public final Block planks;
+	public final SlabBlock slab;
+	public final StairBlock stairs;
+	public final FenceBlock fence;
+	public final FenceGateBlock fenceGate;
+	public final ButtonBlock button;
+	public final PressurePlateBlock pressurePlate;
 	/// Used for tree datagen
-	public final ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;
 
-	public ProductiveCherryType(String name, Identifier id, double dropPetalsChance, ProducedResources producedResources, DatagenSettings datagenSettings, RotatedPillarBlock log, ProductiveLeafsBlock leafs, ProductivePetalsBlock petals, SaplingBlock sapling, ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey) {
+	public ProductiveCherryType(String name, Identifier id, double dropPetalsChance, ProducedResources producedResources, DatagenSettings datagenSettings, RotatedPillarBlock log, ProductiveLeafsBlock leafs, ProductivePetalsBlock petals, SaplingBlock sapling, Block planks, SlabBlock slab, StairBlock stairs, FenceBlock fence, FenceGateBlock fenceGate, ButtonBlock button, PressurePlateBlock pressurePlate) {
 		this.name = name;
 		this.id = id;
 		this.dropPetalsChance = dropPetalsChance;
@@ -47,7 +55,13 @@ public class ProductiveCherryType {
 		this.leafs = leafs;
 		this.petals = petals;
 		this.sapling = sapling;
-		this.treeFeatureKey = treeFeatureKey;
+		this.planks = planks;
+		this.slab = slab;
+		this.stairs = stairs;
+		this.fence = fence;
+		this.fenceGate = fenceGate;
+		this.button = button;
+		this.pressurePlate = pressurePlate;
 	}
 
 	public static class Builder {
@@ -63,23 +77,19 @@ public class ProductiveCherryType {
 		Item.Properties leafItemProperties = new Item.Properties();
 		Item.Properties logItemProperties = new Item.Properties();
 		Item.Properties saplingItemProperties = new Item.Properties();
-		// TODO add wood set
 		Item.Properties woodItemProperties = new Item.Properties();
 		BlockBehaviour.Properties petalProperties = BlockBehaviour.Properties.ofFullCopy(Blocks.PINK_PETALS).strength(.3f);
 		BlockBehaviour.Properties leafProperties = BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LEAVES);
 		BlockBehaviour.Properties logProperties = BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_LOG);
 		BlockBehaviour.Properties saplingProperties = BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_SAPLING);
-		// TODO add wood set
 		BlockBehaviour.Properties woodProperties = BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_PLANKS);
 		MapColor logSideColor = MapColor.TERRACOTTA_GRAY;
 		MapColor logTopColor = MapColor.TERRACOTTA_WHITE;
 		MapColor leafsColor = MapColor.COLOR_PINK;
 		MapColor petalsColor = MapColor.PLANT;
 		MapColor saplingColor = MapColor.COLOR_PINK;
-		// TODO add wood set
 		MapColor woodColor = MapColor.TERRACOTTA_WHITE;
 		TreeGrower treeGrowerOverride;
-		ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;
 		ParticleOptions leafParticles = ParticleTypes.CHERRY_LEAVES;
 
 		public Builder(String id){
@@ -89,7 +99,7 @@ public class ProductiveCherryType {
 		public Builder(String name, Identifier id) {
 			this.name = name;
 			this.id = id;
-			treeFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE,id);
+			datagenSettings.treeFeatureKey = ResourceKey.create(Registries.CONFIGURED_FEATURE,id);
 		}
 
 		public Builder changeDatagenSettings(Consumer<DatagenSettings> consumer){
@@ -133,7 +143,7 @@ public class ProductiveCherryType {
 		}
 
 		public Builder setTreeFeatureKey(ResourceKey<ConfiguredFeature<?,?>> key){
-			treeFeatureKey = key;
+			datagenSettings.treeFeatureKey = key;
 			return this;
 		}
 
@@ -235,7 +245,7 @@ public class ProductiveCherryType {
 			return new TreeGrower(
 				id.getNamespace()+"_productive_cherry_tree",
 				Optional.empty(),
-				Optional.of(treeFeatureKey),
+				Optional.of(datagenSettings.treeFeatureKey),
 				Optional.empty()
 			);
 		}
@@ -252,7 +262,28 @@ public class ProductiveCherryType {
 				(p) -> new SaplingBlock(treeGrowerOverride==null?createDefaultTreeGrower():treeGrowerOverride,p),
 				saplingProperties,BlockItem::new,saplingItemProperties);
 
-			ProductiveCherryType productiveCherryType = new ProductiveCherryType(name,id,dropPetalsChance,producedResources,datagenSettings,log,leafs,petals,sapling,treeFeatureKey);
+			Block planks = ModBlocks.registerWithItem(id.withSuffix("_planks"),Block::new,
+				woodProperties, BlockItem::new,woodItemProperties);
+			SlabBlock slab = (SlabBlock) ModBlocks.registerWithItem(id.withSuffix("_slab"),SlabBlock::new,
+				woodProperties, BlockItem::new,woodItemProperties);
+			StairBlock stairs = (StairBlock) ModBlocks.registerWithItem(id.withSuffix("_stairs"),
+				(p) -> new StairBlock(planks.defaultBlockState(),p),
+				woodProperties, BlockItem::new,woodItemProperties);
+			FenceGateBlock fenceGate = (FenceGateBlock) ModBlocks.registerWithItem(id.withSuffix("_fence_gate"),
+				(p) -> new FenceGateBlock(WoodType.CHERRY,p),
+				woodProperties, BlockItem::new,woodItemProperties);
+			FenceBlock fence = (FenceBlock) ModBlocks.registerWithItem(id.withSuffix("_fence"),FenceBlock::new,
+				woodProperties, BlockItem::new,woodItemProperties);
+			ButtonBlock button = (ButtonBlock) ModBlocks.registerWithItem(id.withSuffix("_button"),
+				(p) -> new ButtonBlock(BlockSetType.CHERRY,30,p),
+				woodProperties, BlockItem::new,woodItemProperties);
+			PressurePlateBlock pressurePlate = (PressurePlateBlock) ModBlocks.registerWithItem(id.withSuffix("_pressure_plate"),
+				(p) -> new PressurePlateBlock(BlockSetType.CHERRY,p),
+				woodProperties, BlockItem::new,woodItemProperties);
+
+			ProductiveCherryType productiveCherryType = new ProductiveCherryType(
+				name,id,dropPetalsChance,producedResources,datagenSettings,
+				log,leafs,petals,sapling,planks,slab,stairs,fence,fenceGate,button,pressurePlate);
 			Registry.register(ProductiveCherryTrees.CHERRY_TYPES,id,productiveCherryType);
 			return productiveCherryType;
 		}
@@ -267,5 +298,6 @@ public class ProductiveCherryType {
 		public boolean genEnLang = true;
 		public boolean genTree = true;
 		public boolean genTags = true;
+		public ResourceKey<ConfiguredFeature<?,?>> treeFeatureKey;
 	}
 }
