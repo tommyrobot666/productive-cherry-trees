@@ -73,6 +73,7 @@ public class ModBlocks {
 		.setLogTopColor(MapColor.COLOR_LIGHT_GREEN)
 		.setLeafsColor(MapColor.COLOR_PINK)
 		.setPetalsColor(MapColor.COLOR_PINK)
+		.applyMapColors()
 		.buildAndRegister();
 
 	public static final ProductiveCherryType GOLD_CHERRY = new ProductiveCherryType.Builder("gold")
@@ -82,6 +83,7 @@ public class ModBlocks {
 		.setLogTopColor(MapColor.TERRACOTTA_WHITE)
 		.setLeafsColor(MapColor.GOLD)
 		.setPetalsColor(MapColor.GOLD)
+		.applyMapColors()
 		.buildAndRegister();
 
 	public static final ProductiveCherryType STONE_CHERRY = new ProductiveCherryType.Builder("stone")
@@ -92,6 +94,7 @@ public class ModBlocks {
 		.setLogTopColor(MapColor.COLOR_GRAY)
 		.setLeafsColor(MapColor.COLOR_LIGHT_GRAY)
 		.setPetalsColor(MapColor.COLOR_LIGHT_GRAY)
+		.applyMapColors()
 		.buildAndRegister();
 
 	public static final ProductiveCherryType FIRE_CHERRY = new ProductiveCherryType.Builder("fire")
@@ -103,6 +106,7 @@ public class ModBlocks {
 		.setLogTopColor(MapColor.COLOR_GRAY)
 		.setLeafsColor(MapColor.FIRE)
 		.setPetalsColor(MapColor.FIRE)
+		.applyMapColors()
 		.buildAndRegister();
 
 	public static final ProductiveCherryType WATER_CHERRY = new ProductiveCherryType.Builder("water")
@@ -118,6 +122,7 @@ public class ModBlocks {
 		.setLogTopColor(MapColor.WATER)
 		.setLeafsColor(MapColor.WATER)
 		.setPetalsColor(MapColor.WATER)
+		.applyMapColors()
 		.buildAndRegister();
 
 	public static void register(){}

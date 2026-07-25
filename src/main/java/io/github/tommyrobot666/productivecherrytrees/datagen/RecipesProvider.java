@@ -13,6 +13,7 @@ import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
@@ -26,12 +27,18 @@ public class RecipesProvider extends FabricRecipeProvider {
 	}
 
 	void cherryRecipes(ProductiveCherryType type, RecipeProvider g, RecipeOutput o){
-		g.shapeless(RecipeCategory.BUILDING_BLOCKS, Items.CHERRY_PLANKS, 4)
+		g.shapeless(RecipeCategory.BUILDING_BLOCKS, type.planks, 4)
 			.requires(type.log)
 			.group("cherry_planks")
 			.unlockedBy("has_the_log",g.has(type.log))
 			.save(o,type.id+"_cherry_log_to_planks");
 		saplingInfusion(Blocks.CHERRY_SAPLING,type.petals,type,o);
+		g.slab(RecipeCategory.BUILDING_BLOCKS,type.slab, type.planks);
+		g.stairBuilder(type.stairs, Ingredient.of(type.planks)).unlockedBy("got_wood",g.has(type.planks)).save(o);
+		g.fenceBuilder(type.fence,Ingredient.of(type.planks)).unlockedBy("got_wood",g.has(type.planks)).save(o);
+		g.fenceGateBuilder(type.fenceGate,Ingredient.of(type.planks)).unlockedBy("got_wood",g.has(type.planks)).save(o);
+		g.buttonBuilder(type.button, Ingredient.of(type.planks)).unlockedBy("got_wood",g.has(type.planks)).save(o);
+		g.pressurePlate(type.pressurePlate, type.planks);
 	}
 
 	void petalFusion(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o){

@@ -27,6 +27,20 @@ public class EnglishLanguageProvider extends FabricLanguageProvider {
 		tb.add(type.log.asItem(), capitalName+" Cherry Log");
 		tb.add(type.petals.asItem(), capitalName+" Cherry Petals");
 		tb.add(type.sapling.asItem(), capitalName+" Cherry Sapling");
+		tb.add(type.planks.asItem(), capitalName+" Cherry Planks");
+		tb.add(type.stairs.asItem(), capitalName+" Cherry Stairs");
+		tb.add(type.slab.asItem(), capitalName+" Cherry Slab");
+		tb.add(type.fence.asItem(), capitalName+" Cherry Fence");
+		tb.add(type.fenceGate.asItem(), capitalName+" Cherry Fence Gate");
+		tb.add(type.button.asItem(), capitalName+" Cherry Button");
+		tb.add(type.pressurePlate.asItem(), capitalName+" Cherry Pressure Plate");
+		tb.add(type.planks, capitalName+" Cherry Planks");
+		tb.add(type.stairs, capitalName+" Cherry Stairs");
+		tb.add(type.slab, capitalName+" Cherry Slab");
+		tb.add(type.fence, capitalName+" Cherry Fence");
+		tb.add(type.fenceGate, capitalName+" Cherry Fence Gate");
+		tb.add(type.button, capitalName+" Cherry Button");
+		tb.add(type.pressurePlate, capitalName+" Cherry Pressure Plate");
 	}
 
 	@Override

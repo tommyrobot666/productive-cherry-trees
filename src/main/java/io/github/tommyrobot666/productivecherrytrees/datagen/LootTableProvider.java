@@ -80,6 +80,13 @@ public class LootTableProvider extends FabricBlockLootSubProvider {
 		add(type.leafs,createLeavesDrops(type.leafs,type.sapling,0.1f));
 		dropSelf(type.sapling);
 		petalsDrops(type);
+		dropSelf(type.planks);
+		dropSelf(type.stairs);
+		add(type.slab,createSlabItemTable(type.slab));
+		dropSelf(type.fence);
+		dropSelf(type.fenceGate);
+		dropSelf(type.button);
+		dropSelf(type.pressurePlate);
 	}
 
 	@Override

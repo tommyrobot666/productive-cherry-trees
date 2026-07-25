@@ -33,12 +33,6 @@ public class ConfiguredFeatureProvider extends FabricDynamicRegistryProvider {
 		super(output, registriesFuture);
 	}
 
-	public static final ResourceKey<ConfiguredFeature<?, ?>> TEST_TREE_KEY =
-		ResourceKey.create(
-			Registries.CONFIGURED_FEATURE,
-			Identifier.fromNamespaceAndPath(ProductiveCherryTrees.ID, "test_productive_cherry_tree")
-		);
-
 	static TreeConfiguration createCherryTree(ProductiveCherryType type){
 		WeightedList<IntProvider> weightedList = WeightedList.of(
 			List.of(new Weighted<>(new ConstantInt(1),1),

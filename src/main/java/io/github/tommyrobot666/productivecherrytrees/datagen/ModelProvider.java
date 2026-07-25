@@ -12,6 +12,7 @@ import net.minecraft.client.data.models.MultiVariant;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
 import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TexturedModel;
 import org.jetbrains.annotations.NotNull;
 
@@ -25,6 +26,13 @@ public class ModelProvider extends FabricModelProvider {
 		g.createLeafLitter(type.petals);
 		g.createCrossBlockWithDefaultItem(type.sapling, BlockModelGenerators.PlantType.EMISSIVE_NOT_TINTED);
 		g.createTrivialCube(type.leafs);
+		BlockModelGenerators.BlockFamilyProvider familyProvider = g.family(type.planks);
+		familyProvider.slab(type.slab);
+		familyProvider.stairs(type.stairs);
+		familyProvider.fence(type.fence);
+		familyProvider.fenceGate(type.fenceGate);
+		familyProvider.button(type.button);
+		familyProvider.pressurePlate(type.pressurePlate);
 	}
 
 	void createSaplingInfuser(BlockModelGenerators g){

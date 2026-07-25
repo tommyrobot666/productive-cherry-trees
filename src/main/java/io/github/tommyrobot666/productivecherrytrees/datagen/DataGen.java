@@ -1,16 +1,11 @@
 package io.github.tommyrobot666.productivecherrytrees.datagen;
 
 import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
-import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
-import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.minecraft.core.RegistrySetBuilder;
 import net.minecraft.core.registries.Registries;
 import org.jspecify.annotations.Nullable;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class DataGen implements DataGeneratorEntrypoint {
 
@@ -23,6 +18,7 @@ public class DataGen implements DataGeneratorEntrypoint {
 		pack.addProvider(EnglishLanguageProvider::new);
 		pack.addProvider(BlockTagProvider::new);
 		pack.addProvider(RecipesProvider::new);
+		pack.addProvider(ItemTagProvider::new);
 	}
 
 	@Override

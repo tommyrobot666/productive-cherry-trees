@@ -26,7 +26,14 @@ public class BlockTagProvider extends FabricTagsProvider.BlockTagsProvider {
 
 	void cherryTags(ProductiveCherryType type){
 		valueLookupBuilder(MINEABLE_AXE)
-			.add(type.log);
+			.add(type.log)
+				.add(type.planks)
+					.add(type.stairs)
+						.add(type.slab)
+							.add(type.fence)
+								.add(type.fenceGate)
+									.add(type.pressurePlate)
+										.add(type.button);
 		valueLookupBuilder(MINEABLE_HOE)
 			.add(type.leafs)
 			.add(type.petals);
