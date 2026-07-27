@@ -53,6 +53,8 @@ public class RecipesProvider extends FabricRecipeProvider {
 			for (ProductiveCherryType result : ProductiveCherryTrees.CHERRY_TYPES){
 				HashSet<ProducedResources.Essence> allEssencesInResult = new HashSet<>(result.producedResources.getEssences());
 				allEssencesInResult.addAll(result.producedResources.getSecondaryEssences());
+				// filter out the ones that do nothing
+				if (result == type || result == other) continue;
 				if (combinedEssences.containsAll(allEssencesInResult)) {
 					ProductiveCherryTrees.LOGGER.warn(result.name);
 					petalFusion(other,type,result,other.dropPetalsChance*result.dropPetalsChance/type.dropPetalsChance,o);
@@ -129,7 +131,7 @@ public class RecipesProvider extends FabricRecipeProvider {
 
 				// Stone recipes
 				// this recipe could be added for every traceElements of stone
-				petalFusion(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.0001,o);
+				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.0001,1,o);
 				petalFusion(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,Blocks.STONE_SLAB,0.0001,o);
 
 				// Gold recipes

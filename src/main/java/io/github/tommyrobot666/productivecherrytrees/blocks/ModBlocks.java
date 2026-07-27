@@ -71,7 +71,7 @@ public class ModBlocks {
 
 	public static final ProductiveCherryType TEST_CHERRY = new ProductiveCherryType.Builder("test")
 		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.PINK_CONCRETE,2))
-		.setProducedResources(new ProducedResources(List.of(),List.of()))
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.TRUE_MAGIC_OF_ULTIMATE_POWER),List.of()))
 		.setDropPetalsChance(.1f)
 		.setLogSideColor(MapColor.TERRACOTTA_WHITE)
 		.setLogTopColor(MapColor.COLOR_LIGHT_GREEN)
