@@ -2,6 +2,7 @@ package io.github.tommyrobot666.productivecherrytrees.datagen;
 
 import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProducedResources;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipeBuilder;
 import io.github.tommyrobot666.productivecherrytrees.recipes.SaplingInfusionRecipeBuilder;
@@ -18,12 +19,41 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class RecipesProvider extends FabricRecipeProvider {
 	public RecipesProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
+	}
+
+	void producedEssencesToPetalFusion(ProductiveCherryType type, RecipeOutput o){
+		// for every way this types petals may fall onto another
+		for (ProductiveCherryType other : ProductiveCherryTrees.CHERRY_TYPES){
+			// combine essences
+			HashSet<ProducedResources.Essence> combinedEssences = new HashSet<>(type.producedResources.getEssences());
+			other.producedResources.getEssences().forEach((e)->combinedEssences.add(e));
+			// combine secondaryEssences
+			for (ProducedResources.Essence essence : type.producedResources.getSecondaryEssences()){
+				// only compare secondaryEssences because when other has full essence is added in first step
+				if (other.producedResources.getSecondaryEssences().contains(essence)) combinedEssences.add(essence);
+			}
+			ProductiveCherryTrees.LOGGER.warn(Arrays.toString(combinedEssences.stream().map((e)->e.getAssociatedItems().stream().findAny().get().toString()).toArray()));
+
+
+			// figure out what it makes
+			for (ProductiveCherryType result : ProductiveCherryTrees.CHERRY_TYPES){
+				HashSet<ProducedResources.Essence> allEssencesInResult = new HashSet<>(result.producedResources.getEssences());
+				allEssencesInResult.addAll(result.producedResources.getSecondaryEssences());
+				if (combinedEssences.containsAll(allEssencesInResult)) {
+					petalFusion(other,type,result,other.dropPetalsChance*result.dropPetalsChance/type.dropPetalsChance,o);
+				}
+
+				ProductiveCherryTrees.LOGGER.warn(result.name);
+			}
+		}
 	}
 
 	void cherryRecipes(ProductiveCherryType type, RecipeProvider g, RecipeOutput o){
@@ -39,6 +69,8 @@ public class RecipesProvider extends FabricRecipeProvider {
 		g.fenceGateBuilder(type.fenceGate,Ingredient.of(type.planks)).unlockedBy("got_wood",g.has(type.planks)).save(o);
 		g.buttonBuilder(type.button, Ingredient.of(type.planks)).unlockedBy("got_wood",g.has(type.planks)).save(o);
 		g.pressurePlate(type.pressurePlate, type.planks);
+
+		producedEssencesToPetalFusion(type, o);
 	}
 
 	void petalFusion(ProductiveCherryType org, ProductiveCherryType comb, ProductiveCherryType out, double chance, RecipeOutput o){

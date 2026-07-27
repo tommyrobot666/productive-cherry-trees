@@ -16,6 +16,14 @@ public class ProducedResources {
 	 * (can be transformed into this using custom recipe (think stone to gold recipe))*/
 	HashSet<Essence> traceElements = new HashSet<>();
 
+	public HashSet<Essence> getEssences(){
+		return essences;
+	}
+
+	public HashSet<Essence> getSecondaryEssences(){
+		return secondaryEssences;
+	}
+
 	/** Used for both creating ProducedResources and
 	 for other mods to add to essences */
 	ProducedResources addEssence(Essence essence){
@@ -40,6 +48,10 @@ public class ProducedResources {
 	public static class Essence {
 		/// Used for when machines process magic essence
 		HashSet<Item> associatedItems = new HashSet<>();
+
+		public HashSet<Item> getAssociatedItems(){
+			return associatedItems;
+		}
 
 		/** Used for both creating Essence and
 		 for other mods to add to associatedItems */
