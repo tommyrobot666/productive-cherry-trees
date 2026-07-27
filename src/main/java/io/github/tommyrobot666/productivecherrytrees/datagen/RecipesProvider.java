@@ -127,23 +127,23 @@ public class RecipesProvider extends FabricRecipeProvider {
 
 
 
-//				// Stone recipes
-//				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.0001,1,o);
-//				petalFusion(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,Blocks.STONE_SLAB,0.0001,o);
-//
-//				// Gold recipes
-//				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
-//				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.RAW_GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
-//
-//				// Fire recipes
-//  //			petalFusion(Blocks.WATER,ModBlocks.FIRE_CHERRY.petals,Blocks.COBBLESTONE,1,o);
-//				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.LAVA,ModBlocks.FIRE_CHERRY,o);
-//				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.FIRE,ModBlocks.FIRE_CHERRY,o);
-//				petalFusion(ModBlocks.FIRE_CHERRY,ModBlocks.WATER_CHERRY,Blocks.OBSIDIAN,0.05,o);
-//
-//				// Water recipes
-//				petalFusion(ModBlocks.WATER_CHERRY,ModBlocks.FIRE_CHERRY,ModBlocks.STONE_CHERRY,0.1,o);
-//				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.WATER,ModBlocks.WATER_CHERRY,o);
+				// Stone recipes
+				// this recipe could be added for every traceElements of stone
+				petalFusion(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.0001,o);
+				petalFusion(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,Blocks.STONE_SLAB,0.0001,o);
+
+				// Gold recipes
+				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
+				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.RAW_GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
+
+				// Fire recipes
+				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.LAVA,ModBlocks.FIRE_CHERRY,o);
+				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.FIRE,ModBlocks.FIRE_CHERRY,o);
+				petalFusion(ModBlocks.FIRE_CHERRY,ModBlocks.WATER_CHERRY,Blocks.OBSIDIAN,0.05,o);
+
+				// Water recipes
+				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.WATER,ModBlocks.WATER_CHERRY,o);
+				petalFusion(ModBlocks.WATER_CHERRY,ModBlocks.FIRE_CHERRY,Blocks.COBBLESTONE,1,o);
 			}
 		};
 	}
