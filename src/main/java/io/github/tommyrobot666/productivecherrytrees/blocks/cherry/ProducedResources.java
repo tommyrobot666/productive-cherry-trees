@@ -3,8 +3,17 @@ package io.github.tommyrobot666.productivecherrytrees.blocks.cherry;
 import net.minecraft.world.item.Item;
 
 import java.util.HashSet;
+import java.util.List;
 
+//TODO maybe add excluded/incompatable essences
 public class ProducedResources {
+	public ProducedResources(){};
+
+	public ProducedResources(List<Essence> essences, List<Essence> secondaryEssences){
+		this.essences.addAll(essences);
+		this.secondaryEssences.addAll(secondaryEssences);
+	};
+
 	/** Used for when machines process this cherry
 	 * Recipe gen: full essence
 	 * (produced tree may have this essence) */

@@ -1,5 +1,7 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks;
 
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ModCherryEssences;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProducedResources;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.datagen.ProductiveCherryLoot;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
@@ -24,6 +26,7 @@ import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 import net.minecraft.world.level.material.MapColor;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.List;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
@@ -68,6 +71,7 @@ public class ModBlocks {
 
 	public static final ProductiveCherryType TEST_CHERRY = new ProductiveCherryType.Builder("test")
 		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.PINK_CONCRETE,2))
+		.setProducedResources(new ProducedResources(List.of(),List.of()))
 		.setDropPetalsChance(.1f)
 		.setLogSideColor(MapColor.TERRACOTTA_WHITE)
 		.setLogTopColor(MapColor.COLOR_LIGHT_GREEN)
@@ -78,6 +82,7 @@ public class ModBlocks {
 
 	public static final ProductiveCherryType GOLD_CHERRY = new ProductiveCherryType.Builder("gold")
 		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.RAW_GOLD,3,0.3).with(Items.GOLD_INGOT,.01).with(Items.GOLD_NUGGET,7))
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.GOLD),List.of()))
 		.setDropPetalsChance(.05f)
 		.setLogSideColor(MapColor.GOLD)
 		.setLogTopColor(MapColor.TERRACOTTA_WHITE)
@@ -89,6 +94,7 @@ public class ModBlocks {
 	public static final ProductiveCherryType STONE_CHERRY = new ProductiveCherryType.Builder("stone")
 		.setProductiveCherryLoot(new ProductiveCherryLoot().with(Items.COBBLESTONE,5).with(Items.STONE,3,1.7)
 			.with(Items.COBBLED_DEEPSLATE,.1).with(Items.GOLD_NUGGET,.01))
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.STONE),List.of()))
 		.setDropPetalsChance(.13f)
 		.setLogSideColor(MapColor.TERRACOTTA_GRAY)
 		.setLogTopColor(MapColor.COLOR_GRAY)
@@ -101,6 +107,7 @@ public class ModBlocks {
 		.setProductiveCherryLoot(new ProductiveCherryLoot().dropSelf())
 		.changePetalItemProperties(Item.Properties::fireResistant)
 		.petalsPlaceBlock(Blocks.FIRE.defaultBlockState())
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.FIRE),List.of()))
 		.setDropPetalsChance(.09f)
 		.setLogSideColor(MapColor.FIRE)
 		.setLogTopColor(MapColor.COLOR_GRAY)
@@ -117,6 +124,7 @@ public class ModBlocks {
 						Component.translatableWithFallback("item."+ID+".compressed_bottle","Water Bottle With Higher Stack Size")).build())
 			.with(0.1,Items.BUBBLE_CORAL_FAN,Items.BRAIN_CORAL_FAN,Items.FIRE_CORAL_FAN,Items.HORN_CORAL_FAN,Items.TUBE_CORAL_FAN))
 		.changePetalItemProperties(Item.Properties::fireResistant)
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.WATER),List.of()))
 		.setDropPetalsChance(.09f)
 		.setLogSideColor(MapColor.WATER)
 		.setLogTopColor(MapColor.WATER)

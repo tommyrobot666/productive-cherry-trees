@@ -2,6 +2,7 @@ package io.github.tommyrobot666.productivecherrytrees.datagen;
 
 import io.github.tommyrobot666.productivecherrytrees.ProductiveCherryTrees;
 import io.github.tommyrobot666.productivecherrytrees.blocks.ModBlocks;
+import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.CherryEssenceCombinations;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProducedResources;
 import io.github.tommyrobot666.productivecherrytrees.blocks.cherry.ProductiveCherryType;
 import io.github.tommyrobot666.productivecherrytrees.recipes.PetalFusionRecipeBuilder;
@@ -31,7 +32,9 @@ public class RecipesProvider extends FabricRecipeProvider {
 
 	void producedEssencesToPetalFusion(ProductiveCherryType type, RecipeOutput o){
 		// for every way this types petals may fall onto another
+		ProductiveCherryTrees.LOGGER.error(type.name+type.name+type.name);
 		for (ProductiveCherryType other : ProductiveCherryTrees.CHERRY_TYPES){
+			ProductiveCherryTrees.LOGGER.error(other.name);
 			// combine essences
 			HashSet<ProducedResources.Essence> combinedEssences = new HashSet<>(type.producedResources.getEssences());
 			other.producedResources.getEssences().forEach((e)->combinedEssences.add(e));
@@ -40,6 +43,9 @@ public class RecipesProvider extends FabricRecipeProvider {
 				// only compare secondaryEssences because when other has full essence is added in first step
 				if (other.producedResources.getSecondaryEssences().contains(essence)) combinedEssences.add(essence);
 			}
+			// do special combination reactions
+			CherryEssenceCombinations.applyAll(combinedEssences);
+
 			ProductiveCherryTrees.LOGGER.warn(Arrays.toString(combinedEssences.stream().map((e)->e.getAssociatedItems().stream().findAny().get().toString()).toArray()));
 
 
@@ -48,10 +54,9 @@ public class RecipesProvider extends FabricRecipeProvider {
 				HashSet<ProducedResources.Essence> allEssencesInResult = new HashSet<>(result.producedResources.getEssences());
 				allEssencesInResult.addAll(result.producedResources.getSecondaryEssences());
 				if (combinedEssences.containsAll(allEssencesInResult)) {
+					ProductiveCherryTrees.LOGGER.warn(result.name);
 					petalFusion(other,type,result,other.dropPetalsChance*result.dropPetalsChance/type.dropPetalsChance,o);
 				}
-
-				ProductiveCherryTrees.LOGGER.warn(result.name);
 			}
 		}
 	}
@@ -122,23 +127,23 @@ public class RecipesProvider extends FabricRecipeProvider {
 
 
 
-				// Stone recipes
-				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.0001,1,o);
-				petalFusion(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,Blocks.STONE_SLAB,0.0001,o);
-
-				// Gold recipes
-				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
-				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.RAW_GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
-
-				// Fire recipes
-//				petalFusion(Blocks.WATER,ModBlocks.FIRE_CHERRY.petals,Blocks.COBBLESTONE,1,o);
-				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.LAVA,ModBlocks.FIRE_CHERRY,o);
-				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.FIRE,ModBlocks.FIRE_CHERRY,o);
-				petalFusion(ModBlocks.FIRE_CHERRY,ModBlocks.WATER_CHERRY,Blocks.OBSIDIAN,0.05,o);
-
-				// Water recipes
-				petalFusion(ModBlocks.WATER_CHERRY,ModBlocks.FIRE_CHERRY,ModBlocks.STONE_CHERRY,0.1,o);
-				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.WATER,ModBlocks.WATER_CHERRY,o);
+//				// Stone recipes
+//				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.0001,1,o);
+//				petalFusion(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,Blocks.STONE_SLAB,0.0001,o);
+//
+//				// Gold recipes
+//				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
+//				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.RAW_GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
+//
+//				// Fire recipes
+//  //			petalFusion(Blocks.WATER,ModBlocks.FIRE_CHERRY.petals,Blocks.COBBLESTONE,1,o);
+//				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.LAVA,ModBlocks.FIRE_CHERRY,o);
+//				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.FIRE,ModBlocks.FIRE_CHERRY,o);
+//				petalFusion(ModBlocks.FIRE_CHERRY,ModBlocks.WATER_CHERRY,Blocks.OBSIDIAN,0.05,o);
+//
+//				// Water recipes
+//				petalFusion(ModBlocks.WATER_CHERRY,ModBlocks.FIRE_CHERRY,ModBlocks.STONE_CHERRY,0.1,o);
+//				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.WATER,ModBlocks.WATER_CHERRY,o);
 			}
 		};
 	}
