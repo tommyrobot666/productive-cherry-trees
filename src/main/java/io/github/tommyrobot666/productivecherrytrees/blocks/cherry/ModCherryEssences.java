@@ -8,6 +8,7 @@ import java.util.List;
 
 public class ModCherryEssences {
 
+	// ENERGY and NO_ENERGY will only be put in secondaryEssences to give secondaryEssences a use
 	public static final ProducedResources.Essence ENERGY = new ProducedResources.Essence("energy");
 	public static final ProducedResources.Essence NO_ENERGY = new ProducedResources.Essence("no_energy");
 	public static final ProducedResources.Essence FIRE = new ProducedResources.Essence("fire")

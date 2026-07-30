@@ -32,7 +32,6 @@ public class ProductiveCherryLoot {
 		return this;
 	}
 
-	/** @noinspection unused*/
 	public ProductiveCherryLoot with(Item item, int count, double chance, DataComponentMap components){
 		v.add(new ProducedResource(item,count,chance,Optional.of(components)));
 		return this;
