@@ -133,5 +133,55 @@ public class ModBlocks {
 		.applyMapColors()
 		.buildAndRegister();
 
+	public static final ProductiveCherryType GRAVEL_CHERRY = new ProductiveCherryType.Builder("gravel")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().dropSelf())
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.GRAVEL),List.of(ModCherryEssences.STONE,ModCherryEssences.ENERGY)))
+		.setDropPetalsChance(.09f)
+		.setLogSideColor(MapColor.FIRE)
+		.setLogTopColor(MapColor.COLOR_GRAY)
+		.setLeafsColor(MapColor.FIRE)
+		.setPetalsColor(MapColor.FIRE)
+		.applyMapColors()
+		.buildAndRegister();
+
+	public static final ProductiveCherryType SAND_CHERRY = new ProductiveCherryType.Builder("sand")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().dropSelf())
+		.changePetalItemProperties(Item.Properties::fireResistant)
+		.petalsPlaceBlock(Blocks.FIRE.defaultBlockState())
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.SAND),List.of()))
+		.setDropPetalsChance(.09f)
+		.setLogSideColor(MapColor.FIRE)
+		.setLogTopColor(MapColor.COLOR_GRAY)
+		.setLeafsColor(MapColor.FIRE)
+		.setPetalsColor(MapColor.FIRE)
+		.applyMapColors()
+		.buildAndRegister();
+
+	public static final ProductiveCherryType IRON_CHERRY = new ProductiveCherryType.Builder("iron")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().dropSelf())
+		.changePetalItemProperties(Item.Properties::fireResistant)
+		.petalsPlaceBlock(Blocks.FIRE.defaultBlockState())
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.IRON),List.of()))
+		.setDropPetalsChance(.09f)
+		.setLogSideColor(MapColor.FIRE)
+		.setLogTopColor(MapColor.COLOR_GRAY)
+		.setLeafsColor(MapColor.FIRE)
+		.setPetalsColor(MapColor.FIRE)
+		.applyMapColors()
+		.buildAndRegister();
+
+	public static final ProductiveCherryType ICE_CHERRY = new ProductiveCherryType.Builder("ice")
+		.setProductiveCherryLoot(new ProductiveCherryLoot().dropSelf())
+		.changePetalItemProperties(Item.Properties::fireResistant)
+		.petalsPlaceBlock(Blocks.FIRE.defaultBlockState())
+		.setProducedResources(new ProducedResources(List.of(ModCherryEssences.ICE),List.of()))
+		.setDropPetalsChance(.09f)
+		.setLogSideColor(MapColor.FIRE)
+		.setLogTopColor(MapColor.COLOR_GRAY)
+		.setLeafsColor(MapColor.FIRE)
+		.setPetalsColor(MapColor.FIRE)
+		.applyMapColors()
+		.buildAndRegister();
+
 	public static void register(){}
 }
