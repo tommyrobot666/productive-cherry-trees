@@ -11,6 +11,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.impl.resource.conditions.conditions.AllModsLoadedResourceCondition;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
@@ -120,6 +121,28 @@ public class RecipesProvider extends FabricRecipeProvider {
 			.save(withConditions(o, new AllModsLoadedResourceCondition(modids)));
 	}
 
+	void stoneCherry(ProductiveCherryType stone, RecipeOutput o){
+		for (ProducedResources.Essence traceElement : stone.producedResources.getTraceElements()) {
+			var optionalType = ProductiveCherryTrees.CHERRY_TYPES.stream().filter((t) -> t.name.equals(traceElement.name)).findAny();
+			if (optionalType.isEmpty()) continue;
+			ProductiveCherryType type = optionalType.get();
+
+			petalFusionReverse(stone,stone,type,0.0001,1,o);
+
+			var tryGetBlock = BuiltInRegistries.BLOCK.entrySet().stream()
+				.filter((e) -> e.getKey().identifier().getPath().equals(type.name + "_block")).findAny();
+			var tryGetRawBlock = BuiltInRegistries.BLOCK.entrySet().stream()
+				.filter((e) -> e.getKey().identifier().getPath().equals("raw_"+type.name + "_block")).findAny();
+
+			if (tryGetBlock.isPresent()){
+				saplingInfusion(stone.sapling,tryGetBlock.get().getValue(),type,o);
+			}
+			if (tryGetRawBlock.isPresent()){
+				saplingInfusion(stone.sapling,tryGetRawBlock.get().getValue(),type,o);
+			}
+		}
+	}
+
 	@Override
 	protected @NotNull RecipeProvider createRecipeProvider(HolderLookup.@NotNull Provider reg, @NotNull RecipeOutput o) {
 		return new RecipeProvider(reg,o) {
@@ -128,6 +151,8 @@ public class RecipesProvider extends FabricRecipeProvider {
 				ProductiveCherryTrees.CHERRY_TYPES.forEach((t) -> {
 					if (t.datagenSettings.genRecipes) cherryRecipes(t,this,o);
 				});
+
+				stoneCherry(ModBlocks.STONE_CHERRY,o);
 
 				shaped(RecipeCategory.MISC, ModBlocks.SAPLING_INFUSER)
 					.pattern("iii")
@@ -139,16 +164,6 @@ public class RecipesProvider extends FabricRecipeProvider {
 					.group("")
 					.unlockedBy(getHasName(ModBlocks.SAPLING_INFUSER),has(ModBlocks.SAPLING_INFUSER))
 					.save(o);
-
-
-
-				// Stone recipes
-				// this recipe could be added for every traceElements of stone
-				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.0001,1,o);
-
-				// Gold recipes
-				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
-				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.RAW_GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
 
 				// Fire recipes
 				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.LAVA,ModBlocks.FIRE_CHERRY,o);

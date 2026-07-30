@@ -30,28 +30,30 @@ public class ProducedResources {
 	public HashSet<Essence> getEssences(){
 		return essences;
 	}
-
 	public HashSet<Essence> getSecondaryEssences(){
 		return secondaryEssences;
+	}
+	public HashSet<Essence> getTraceElements(){
+		return traceElements;
 	}
 
 	/** Used for both creating ProducedResources and
 	 for other mods to add to essences */
-	ProducedResources addEssence(Essence essence){
+	public ProducedResources addEssence(Essence essence){
 		essences.add(essence);
 		return this;
 	}
 
 	/** Used for both creating ProducedResources and
 	 for other mods to add to secondaryEssences */
-	ProducedResources addSecondaryEssence(Essence essence){
+	public ProducedResources addSecondaryEssence(Essence essence){
 		secondaryEssences.add(essence);
 		return this;
 	}
 
 	/** Used for both creating ProducedResources and
 	 for other mods to add to traceElements */
-	ProducedResources addTraceElements(Essence essence){
+	public ProducedResources addTraceElements(Essence essence){
 		traceElements.add(essence);
 		return this;
 	}
