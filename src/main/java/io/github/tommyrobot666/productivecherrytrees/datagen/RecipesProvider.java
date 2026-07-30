@@ -26,6 +26,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class RecipesProvider extends FabricRecipeProvider {
+	HashSet<String> recipeGenResults = new HashSet<>();
+
 	public RecipesProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
 		super(output, registriesFuture);
 	}
@@ -68,6 +70,7 @@ public class RecipesProvider extends FabricRecipeProvider {
 
 				// add recipe
 				ProductiveCherryTrees.LOGGER.warn(result.name);
+				recipeGenResults.add(other.name+"+"+type.name+":"+result.name+"\n");
 				petalFusion(other,type,result,other.dropPetalsChance*result.dropPetalsChance/type.dropPetalsChance,o);
 			}
 		}
@@ -142,7 +145,6 @@ public class RecipesProvider extends FabricRecipeProvider {
 				// Stone recipes
 				// this recipe could be added for every traceElements of stone
 				petalFusionReverse(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,ModBlocks.GOLD_CHERRY,0.0001,1,o);
-				petalFusion(ModBlocks.STONE_CHERRY,ModBlocks.STONE_CHERRY,Blocks.STONE_SLAB,0.0001,o);
 
 				// Gold recipes
 				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.GOLD_BLOCK,ModBlocks.GOLD_CHERRY,o);
@@ -151,11 +153,11 @@ public class RecipesProvider extends FabricRecipeProvider {
 				// Fire recipes
 				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.LAVA,ModBlocks.FIRE_CHERRY,o);
 				saplingInfusion(ModBlocks.STONE_CHERRY.sapling,Blocks.FIRE,ModBlocks.FIRE_CHERRY,o);
-				petalFusion(ModBlocks.FIRE_CHERRY,ModBlocks.WATER_CHERRY,Blocks.OBSIDIAN,0.05,o);
 
-				// Water recipes
-				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.WATER,ModBlocks.WATER_CHERRY,o);
-				petalFusion(ModBlocks.WATER_CHERRY,ModBlocks.FIRE_CHERRY,Blocks.COBBLESTONE,1,o);
+				// Ice recipes
+				saplingInfusion(Blocks.CHERRY_SAPLING,Blocks.ICE,ModBlocks.ICE_CHERRY,o);
+
+				LOGGER.error(Arrays.toString(recipeGenResults.toArray()));
 			}
 		};
 	}

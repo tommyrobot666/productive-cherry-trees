@@ -18,7 +18,15 @@ public class CherryEssenceCombinations {
 		}
 	}
 
-	static final List<Combination> allCombinations = List.of(CherryEssenceCombinations::energyAmounts);
+	static void iceMelts(Collection<ProducedResources.Essence> essences){
+		if (!essences.contains(ModCherryEssences.NO_ENERGY) && essences.contains(ModCherryEssences.ICE)){
+			essences.add(ModCherryEssences.WATER);
+		}
+	}
+
+	static final List<Combination> allCombinations = List.of(
+		CherryEssenceCombinations::energyAmounts,
+		CherryEssenceCombinations::iceMelts);
 
 	public static void applyAll(Collection<ProducedResources.Essence> essences){
 		allCombinations.forEach((c)-> c.apply(essences));
