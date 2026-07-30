@@ -10,14 +10,15 @@ public class CherryEssenceCombinations {
 		void apply(Collection<ProducedResources.Essence> essences);
 	}
 
-	static void waterAndFireToStone(Collection<ProducedResources.Essence> essences){
-		if (essences.contains(ModCherryEssences.FIRE) && essences.contains(ModCherryEssences.WATER)){
-			essences.add(ModCherryEssences.STONE);
-			//TODO should the fire and water be removed too?
+	static void energyAmounts(Collection<ProducedResources.Essence> essences){
+		if (essences.contains(ModCherryEssences.ENERGY) && essences.contains(ModCherryEssences.NO_ENERGY)){
+			// cancel out
+			essences.remove(ModCherryEssences.ENERGY);
+			essences.remove(ModCherryEssences.NO_ENERGY);
 		}
 	}
 
-	static final List<Combination> allCombinations = List.of(CherryEssenceCombinations::waterAndFireToStone);
+	static final List<Combination> allCombinations = List.of(CherryEssenceCombinations::energyAmounts);
 
 	public static void applyAll(Collection<ProducedResources.Essence> essences){
 		allCombinations.forEach((c)-> c.apply(essences));

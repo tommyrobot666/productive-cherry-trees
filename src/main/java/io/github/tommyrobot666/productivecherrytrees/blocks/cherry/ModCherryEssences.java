@@ -1,26 +1,34 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks.cherry;
 
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluids;
+
+import java.util.HashSet;
+import java.util.List;
 
 public class ModCherryEssences {
-	static ProducedResources.Essence create(Item... items){
-		ProducedResources.Essence essence = new ProducedResources.Essence();
-		for (var item : items){
-			essence.addAssociatedItem(item);
-		}
-		return essence;
-	}
 
-	public static final ProducedResources.Essence FIRE = create(Items.BLAZE_POWDER);
-	public static final ProducedResources.Essence WATER = create(Items.WATER_BUCKET);
-	public static final ProducedResources.Essence STONE = create(Items.STONE);
-	public static final ProducedResources.Essence GOLD = create(Items.GOLD_INGOT);
-	public static final ProducedResources.Essence GRAVEL = create(Items.GRAVEL);
-	public static final ProducedResources.Essence SAND = create(Items.SAND);
-	public static final ProducedResources.Essence IRON = create(Items.IRON_INGOT);
-	public static final ProducedResources.Essence ICE = create(Items.ICE);
-	public static final ProducedResources.Essence ENERGY = create(Items.FIRE_CHARGE);
-	public static final ProducedResources.Essence NO_ENERGY = create(Items.BLUE_ICE);
-	public static final ProducedResources.Essence TRUE_MAGIC_OF_ULTIMATE_POWER = create(Items.COMMAND_BLOCK_MINECART);
+	public static final ProducedResources.Essence ENERGY = new ProducedResources.Essence("energy");
+	public static final ProducedResources.Essence NO_ENERGY = new ProducedResources.Essence("no_energy");
+	public static final ProducedResources.Essence FIRE = new ProducedResources.Essence("fire")
+		.addAssociatedFluid(Fluids.LAVA);
+	public static final ProducedResources.Essence WATER = new ProducedResources.Essence("water")
+		.addAssociatedFluid(Fluids.WATER);
+	public static final ProducedResources.Essence STONE = new ProducedResources.Essence("stone")
+		.addAssociatedItem(Items.STONE)
+		.addWayOfCrafting(new HashSet<>(List.of(WATER,FIRE)));
+	public static final ProducedResources.Essence GOLD = new ProducedResources.Essence("gold")
+		.addAssociatedItem(Items.GOLD_INGOT);
+	public static final ProducedResources.Essence GRAVEL = new ProducedResources.Essence("gravel")
+		.addAssociatedItem(Items.GRAVEL)
+		.addWayOfCrafting(new HashSet<>(List.of(STONE,ENERGY)));
+	public static final ProducedResources.Essence SAND = new ProducedResources.Essence("sand")
+		.addAssociatedItem(Items.SAND)
+		.addWayOfCrafting(new HashSet<>(List.of(GRAVEL,ENERGY)));
+	public static final ProducedResources.Essence IRON = new ProducedResources.Essence("iron")
+		.addAssociatedItem(Items.IRON_INGOT);
+	public static final ProducedResources.Essence ICE = new ProducedResources.Essence("ice")
+		.addAssociatedItem(Items.ICE)
+		.addWayOfCrafting(new HashSet<>(List.of(WATER,NO_ENERGY)));
+	public static final ProducedResources.Essence TRUE_MAGIC_OF_ULTIMATE_POWER = new ProducedResources.Essence("idk");
 }

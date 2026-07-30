@@ -34,10 +34,11 @@ public class RecipesProvider extends FabricRecipeProvider {
 		// for every way this types petals may fall onto another
 		ProductiveCherryTrees.LOGGER.error(type.name+type.name+type.name);
 		for (ProductiveCherryType other : ProductiveCherryTrees.CHERRY_TYPES){
+			if (other == type) continue;
 			ProductiveCherryTrees.LOGGER.error(other.name);
 			// combine essences
 			HashSet<ProducedResources.Essence> combinedEssences = new HashSet<>(type.producedResources.getEssences());
-			other.producedResources.getEssences().forEach((e)->combinedEssences.add(e));
+			combinedEssences.addAll(other.producedResources.getEssences());
 			// combine secondaryEssences
 			for (ProducedResources.Essence essence : type.producedResources.getSecondaryEssences()){
 				// only compare secondaryEssences because when other has full essence is added in first step
@@ -46,7 +47,7 @@ public class RecipesProvider extends FabricRecipeProvider {
 			// do special combination reactions
 			CherryEssenceCombinations.applyAll(combinedEssences);
 
-			ProductiveCherryTrees.LOGGER.warn(Arrays.toString(combinedEssences.stream().map((e)->e.getAssociatedItems().stream().findAny().get().toString()).toArray()));
+			ProductiveCherryTrees.LOGGER.warn(Arrays.toString(combinedEssences.stream().map((e)->e.name).toArray()));
 
 
 			// figure out what it makes
@@ -55,10 +56,19 @@ public class RecipesProvider extends FabricRecipeProvider {
 				allEssencesInResult.addAll(result.producedResources.getSecondaryEssences());
 				// filter out the ones that do nothing
 				if (result == type || result == other) continue;
-				if (combinedEssences.containsAll(allEssencesInResult)) {
-					ProductiveCherryTrees.LOGGER.warn(result.name);
-					petalFusion(other,type,result,other.dropPetalsChance*result.dropPetalsChance/type.dropPetalsChance,o);
+				// check if every essence in result can be created
+				boolean oneDoesntMatch = false;
+				for (ProducedResources.Essence gettingCrafted : allEssencesInResult){
+					if (!gettingCrafted.canCraft(combinedEssences)) {
+						oneDoesntMatch = true;
+						break;
+					};
 				}
+				if (oneDoesntMatch) continue;
+
+				// add recipe
+				ProductiveCherryTrees.LOGGER.warn(result.name);
+				petalFusion(other,type,result,other.dropPetalsChance*result.dropPetalsChance/type.dropPetalsChance,o);
 			}
 		}
 	}

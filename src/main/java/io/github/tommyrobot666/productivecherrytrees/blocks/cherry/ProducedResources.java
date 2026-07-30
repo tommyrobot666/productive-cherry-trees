@@ -1,7 +1,9 @@
 package io.github.tommyrobot666.productivecherrytrees.blocks.cherry;
 
 import net.minecraft.world.item.Item;
+import net.minecraft.world.level.material.Fluid;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -57,7 +59,28 @@ public class ProducedResources {
 	public static class Essence {
 		/// Used for when machines process magic essence
 		HashSet<Item> associatedItems = new HashSet<>();
+		HashSet<Fluid> associatedFluids = new HashSet<>();
+		/// used for recipe gen
+		ArrayList<HashSet<Essence>> waysOfCrafting = new ArrayList<>(List.of(new HashSet<>(List.of(this))));
+		public final String name;
 
+		public Essence(String name){
+			this.name = name;
+		}
+
+		public String translationKey(){
+			return "productive_cherry_essence."+name;
+		}
+
+		public boolean canCraft(HashSet<Essence> materials){
+			for (HashSet<Essence> way : waysOfCrafting) {
+				if (materials.containsAll(way)){
+					return true;
+				}
+			}
+			return false;
+		}
+		
 		public HashSet<Item> getAssociatedItems(){
 			return associatedItems;
 		}
@@ -68,6 +91,19 @@ public class ProducedResources {
 			associatedItems.add(item);
 			return this;
 		}
+		Essence addAssociatedFluid(Fluid fluid){
+			associatedFluids.add(fluid);
+			return this;
+		}
 
+		Essence addWayOfCrafting(HashSet<Essence> materials){
+			waysOfCrafting.add(materials);
+			return this;
+		}
+
+		@Override
+		public String toString() {
+			return "Essence["+name+']';
+		}
 	}
 }
